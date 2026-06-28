@@ -188,7 +188,7 @@ export default function ContactForm() {
       });
 
       document.body.appendChild(form);
-      form.submit();
+      HTMLFormElement.prototype.submit.call(form);
 
       // Cleanup elements after submit
       setTimeout(() => {
