@@ -18,7 +18,7 @@ interface HeroProps {
 export default function Hero({ onOpenEarlyAccess }: HeroProps) {
   // Typical Indian Salaried Tax optimization areas
   const optimizationSteps = [
-    { id: 1, name: 'Section 80C Investment Check', factor: 'ELSS, PPF, EPF & Tuition Fees', impact: 'Save up to ₹46,800/yr', status: '80C Maximizer' },
+    { id: 1, name: 'Section 80C Investment Check ', factor: 'ELSS, PPF, EPF & Tuition Fees', impact: 'Save up to ₹46,800/yr', status: '80C Maximizer' },
     { id: 2, name: 'HRA Exemption Claim', factor: 'Exemption based on Rent vs Basic Salary', impact: 'Save up to ₹78,000/yr', status: 'HRA Calculator' },
     { id: 3, name: 'NPS Section 80CCD(1B) Top-up', factor: 'National Pension Scheme up to ₹50k', impact: 'Save up to ₹15,600/yr', status: 'Extra Deductions' },
     { id: 4, name: 'Section 80D Health Cover', factor: 'Premium for Self & Senior Citizen Parents', impact: 'Save up to ₹23,400/yr', status: 'Health Shield' },
