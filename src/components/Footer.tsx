@@ -16,7 +16,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-display text-xl font-extrabold tracking-tight text-white leading-normal pb-0.5 inline-block">
-                  Fin<span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-450 align-bottom">Mynd</span>
+                  Fin<sup className="align-baseline text-[0.65em] font-extrabold relative -top-[0.4em] ml-0.5 text-emerald-400">Mynd</sup>
                   <span className="text-emerald-400">.</span>
                 </span>
                 <span className="text-[8px] font-mono font-extrabold text-indigo-400 tracking-wider uppercase leading-none mt-0.5">

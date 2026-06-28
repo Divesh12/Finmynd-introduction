@@ -48,7 +48,7 @@ export default function Header({ onOpenEarlyAccess }: HeaderProps) {
             </div>
             <div className="flex flex-col">
               <span className="font-display text-2xl font-black tracking-tight text-gray-900 leading-normal pb-0.5 inline-block">
-                Fin<span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600 drop-shadow-xs font-black align-bottom">Mynd</span>
+                Fin<sup className="align-baseline text-[0.65em] font-black relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup>
                 <span className="text-indigo-600">.</span>
                 <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-md text-[8px] font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 align-middle">
                   COMING SOON

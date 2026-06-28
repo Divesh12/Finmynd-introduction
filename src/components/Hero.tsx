@@ -46,17 +46,12 @@ export default function Hero({ onOpenEarlyAccess }: HeroProps) {
           <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-50 to-indigo-50/50 border border-emerald-100 px-4 py-1.5 rounded-full text-emerald-800 text-xs sm:text-sm font-semibold shadow-xs">
               <Sparkles className="w-4 h-4 text-emerald-600 animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-mono text-xs uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 to-indigo-700 font-bold">Making Sense of Finance</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald-700 font-bold">Making Sense of Finance</span>
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-950 leading-tight">
               Make Sense of Taxes.<br />
-              Reduce Stress with <span className="relative inline-block whitespace-nowrap">
-                <span className="absolute -inset-1.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-500 rounded-lg blur-xs opacity-20 animate-pulse" style={{ animationDuration: '3s' }} />
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold pr-1 pb-1 inline-block">
-                  FinMynd
-                </span>
-              </span>
+              Reduce Stress with <span className="font-black text-gray-950">Fin<sup className="align-baseline text-[0.65em] font-black relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup></span>
               <span className="text-indigo-600">.</span>
             </h1>
 

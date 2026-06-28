@@ -333,7 +333,7 @@ function MatrixTable() {
               <tr className="bg-slate-50 border-b border-gray-150 text-slate-500 font-mono text-[10px] uppercase tracking-wider font-extrabold">
                 <th className="p-4 sm:p-6 w-1/4">Feature Area</th>
                 <th className="p-4 sm:p-6 w-3/8 bg-rose-50/5 text-rose-800">Traditional Apps</th>
-                <th className="p-4 sm:p-6 w-3/8 bg-emerald-50/5 text-emerald-950">FinMynd</th>
+                <th className="p-4 sm:p-6 w-3/8 bg-emerald-50/5 text-emerald-950 font-display font-black">Fin<sup className="align-baseline text-[0.65em] font-black relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-150">

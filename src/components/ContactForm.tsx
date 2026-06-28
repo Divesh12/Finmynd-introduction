@@ -16,8 +16,8 @@ export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const defaultUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeGZKwX934TAmYXEMfRs4i7igBBODcdyoFHhhFN9kkGebAtOQ/viewform';
-  const defaultEntryId = 'entry.1569938489';
+  const defaultUrl = (import.meta as any).env?.VITE_GOOGLE_FORM_URL || 'https://docs.google.com/forms/d/e/1FAIpQLSeGZKwX934TAmYXEMfRs4i7igBBODcdyoFHhhFN9kkGebAtOQ/viewform';
+  const defaultEntryId = (import.meta as any).env?.VITE_GOOGLE_FORM_ENTRY_ID || 'entry.1569938489';
 
   // State to hold the actively used Google Form configuration
   const [formUrl, setFormUrl] = useState(() => {
@@ -145,6 +145,7 @@ export default function ContactForm() {
     console.log(`[Form Submission] Question Entry Field: ${entryKey}`);
 
     // --- TRANSMISSION ROUTE: Secure Server-side Proxy Relay (Bypasses local browser CORS/adblockers securely, single submission) ---
+    const isCustom = activeUrl !== defaultUrl || activeEntryId !== defaultEntryId;
     let submittedViaBackend = false;
     try {
       const response = await fetch('/api/submit-form', {
@@ -154,8 +155,8 @@ export default function ContactForm() {
         },
         body: JSON.stringify({ 
           message: message.trim(),
-          formUrl: activeUrl,
-          entryId: activeEntryId
+          formUrl: isCustom ? activeUrl : undefined,
+          entryId: isCustom ? activeEntryId : undefined
         }),
       });
 
@@ -183,7 +184,14 @@ export default function ContactForm() {
         const iframe = document.createElement('iframe');
         iframe.name = iframeId;
         iframe.id = iframeId;
-        iframe.style.display = 'none';
+        // Style off-screen instead of display: none to prevent modern browsers from blocking the form submit in a hidden container
+        iframe.style.position = 'absolute';
+        iframe.style.width = '1px';
+        iframe.style.height = '1px';
+        iframe.style.top = '-9999px';
+        iframe.style.left = '-9999px';
+        iframe.style.opacity = '0.01';
+        iframe.style.pointerEvents = 'none';
         document.body.appendChild(iframe);
 
         const form = document.createElement('form');
@@ -261,7 +269,7 @@ export default function ContactForm() {
             <span>Integrated Feedback & Routing</span>
           </span>
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Have a Complex Tax Question? Ask <span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold align-bottom">FinMynd</span>
+            Have a Complex Tax Question? Ask <span className="font-extrabold text-gray-900">Fin<sup className="align-baseline text-[0.65em] font-extrabold relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup></span>
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed font-sans">
             Whether you are curious about the new ₹12.5 Lakh zero-tax threshold, Section 87A marginal relief computations, or want us to code a custom visual chart—just type below. 
@@ -393,109 +401,7 @@ export default function ContactForm() {
                 </button>
               </form>
 
-              {/* Optional Google Sheets / Form Integration Drawer */}
-              <div className="mt-8 pt-6 border-t border-gray-150 text-left">
-                <button
-                  type="button"
-                  onClick={() => setIsConfigOpen(!isConfigOpen)}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer focus:outline-hidden"
-                >
-                  <Settings className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
-                  <span>Configure Google Sheets Integration</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-mono ${formUrl !== defaultUrl ? 'bg-indigo-100 text-indigo-800 font-semibold' : 'bg-slate-100 text-slate-600'}`}>
-                    {formUrl !== defaultUrl ? 'Custom Link Active' : 'Default Sheet'}
-                  </span>
-                </button>
 
-                {isConfigOpen && (
-                  <div className="mt-4 p-5 rounded-2xl bg-slate-50 border border-gray-150 space-y-4 text-sm text-slate-700 animate-fade-in">
-                    <div className="space-y-1">
-                      <h4 className="font-display font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
-                        <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
-                        Link Your Own Google Sheet
-                      </h4>
-                      <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                        To receive feedback directly in your own Google Sheet: Create a Google Form with a single paragraph text field, copy the Form URL, and paste it below along with its corresponding input field Entry ID (e.g., <code className="bg-slate-200 text-slate-800 px-1 py-0.5 rounded font-mono text-[10px]">entry.1569938489</code>).
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
-                      <div className="sm:col-span-2 space-y-1.5">
-                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider block font-mono">
-                          Google Form URL (viewform or edit)
-                        </label>
-                        <div className="relative">
-                          <div className="absolute top-2.5 left-3 text-slate-400">
-                            <Link2 className="w-4 h-4" />
-                          </div>
-                          <input
-                            type="url"
-                            placeholder="https://docs.google.com/forms/d/e/.../viewform"
-                            value={formUrl}
-                            onChange={(e) => {
-                              const val = e.target.value.trim();
-                              setFormUrl(val);
-                              try {
-                                if (val) {
-                                  localStorage.setItem('finmynd_custom_form_url', val);
-                                } else {
-                                  localStorage.removeItem('finmynd_custom_form_url');
-                                }
-                              } catch (e) {}
-                            }}
-                            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-gray-250 focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white text-gray-800 font-sans shadow-xs"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider block font-mono">
-                          Entry Field ID
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="entry.1569938489"
-                          value={entryId}
-                          onChange={(e) => {
-                            const val = e.target.value.trim();
-                            setEntryId(val);
-                            try {
-                              if (val) {
-                                localStorage.setItem('finmynd_custom_entry_id', val);
-                              } else {
-                                localStorage.removeItem('finmynd_custom_entry_id');
-                              }
-                            } catch (e) {}
-                          }}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-gray-250 focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-mono bg-white text-gray-800 shadow-xs"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-gray-200/60">
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-sans">
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Active Form Link: <strong className="text-slate-700 font-mono text-[10px] break-all">{formUrl.slice(0, 50)}...</strong></span>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFormUrl(defaultUrl);
-                          setEntryId(defaultEntryId);
-                          try {
-                            localStorage.removeItem('finmynd_custom_form_url');
-                            localStorage.removeItem('finmynd_custom_entry_id');
-                          } catch (e) {}
-                        }}
-                        className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer hover:underline"
-                      >
-                        Reset to Default Sheet
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           )}
 
