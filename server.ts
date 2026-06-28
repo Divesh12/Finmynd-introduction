@@ -99,6 +99,12 @@ async function startServer() {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
+      // If the request is for a static file extension (e.g. .json, .ico, .map, .png) that doesn't exist,
+      // return a standard 404 instead of serving index.html (which confuses browsers/downloaders into downloading "document" or "document.txt")
+      const parsedPath = path.parse(req.path);
+      if (parsedPath.ext && parsedPath.ext !== '.html') {
+        return res.status(404).send('Not Found');
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
