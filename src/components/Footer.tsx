@@ -1,0 +1,93 @@
+import React from 'react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
+
+export default function Footer() {
+  return (
+    <footer className="bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-900 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-slate-900">
+          
+          {/* Logo & Slogan */}
+          <div className="md:col-span-4 space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-indigo-600 text-white shadow-lg shadow-emerald-500/20">
+                <Sparkles className="w-5 h-5 text-white animate-pulse" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-display text-xl font-extrabold tracking-tight text-white leading-none">
+                  Fin<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-450">Mynd</span>
+                  <span className="text-emerald-400">.</span>
+                </span>
+                <span className="text-[8px] font-mono font-extrabold text-indigo-400 tracking-wider uppercase leading-none mt-1.5">
+                  mindful tax companion
+                </span>
+              </div>
+            </div>
+            
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-sans">
+              Smart, rule-based tax planning and side-by-side regime simulations mapped directly to the Indian Income Tax Act. Tailored exclusively to reduce stress for salaried professionals.
+            </p>
+
+            <div className="flex items-center space-x-2 text-[10px] text-slate-500 font-mono">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <span>100% Client-Side Private • No Server Storage</span>
+            </div>
+          </div>
+
+          {/* Quick Links Sitemaps */}
+          <div className="md:col-span-4 grid grid-cols-2 gap-8 text-xs">
+            <div className="space-y-4">
+              <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">Optimization Modules</h4>
+              <ul className="space-y-2.5">
+                <li><a href="#estimator" className="hover:text-emerald-400 transition-colors">Old vs New Regime</a></li>
+                <li><a href="#scanner" className="hover:text-emerald-400 transition-colors">Transaction Scanner</a></li>
+                <li><a href="#estimator" className="hover:text-emerald-400 transition-colors">HRA Rule 2A Match</a></li>
+                <li><a href="#estimator" className="hover:text-emerald-400 transition-colors">Section 80C & 80D limits</a></li>
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">Resources</h4>
+              <ul className="space-y-2.5">
+                <li><a href="#contact" className="hover:text-emerald-400 transition-colors">Share Feedback</a></li>
+                <li><a href="#features" className="hover:text-emerald-400 transition-colors">Key Factors</a></li>
+                <li><span className="text-slate-600 cursor-not-allowed">Local Parser V1.2</span></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Privacy/Status block */}
+          <div className="md:col-span-4 space-y-4">
+            <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px] block">Privacy & Client-Side Design</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              We operate strictly under a local-only architecture. All parsed financial logs, statement lines, and deduction results remain stored securely in your web browser memory.
+            </p>
+            <div className="inline-flex items-center space-x-2 text-[10px] text-slate-500 font-mono bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Full Browser Isolation Verified</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Legal Disclaimers & Copyright */}
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-[10px] text-slate-500">
+          <div className="space-y-2 max-w-2xl">
+            <p>© {new Date().getFullYear()} FinMynd India. All rights reserved. Registered utility asset.</p>
+            <p className="leading-relaxed text-justify">
+              <strong>Professional Disclaimer:</strong> FinMynd India provides rule-based simulations, tax calculators, and general educational intelligence regarding the Indian Income Tax Act. None of the outputs, figures, or recommendations generated by this platform constitute formal legal, investment, or Chartered Accountancy (CA) advisory services. Always consult with a licensed tax consultant or CA prior to submitting official tax returns.
+            </p>
+          </div>
+
+          <div className="flex space-x-4 text-slate-500 font-mono flex-shrink-0">
+            <span className="hover:text-slate-300 cursor-pointer">Privacy Policy</span>
+            <span>•</span>
+            <span className="hover:text-slate-300 cursor-pointer">Terms of Service</span>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+}

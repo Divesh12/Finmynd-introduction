@@ -1,0 +1,6 @@
+{
+  "name": "FinMynd India",
+  "description": "A comforting, 100% private companion that helps salaried Indian professionals make complete sense of tax filing, reduce anxiety, and manage their finances better. Features side-by-side Old vs New Tax Regime planning and a secure, offline transaction analyzer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
