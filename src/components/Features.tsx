@@ -8,7 +8,9 @@ import {
   FileCheck, 
   ArrowRight,
   Sparkles,
-  Lock
+  Lock,
+  Check,
+  X
 } from 'lucide-react';
 
 interface FeaturesProps {
@@ -28,9 +30,9 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
     },
     {
       id: 'no-file-storage',
-      title: 'Zero PII Login & Workspace',
-      benefit: 'No Emails, Phones, or OTPs',
-      description: 'Your workspace is secured without single-use passwords or personal accounts. Just enter any self-created alias passkey and password to save and reload your sessions. We process only raw transactions, never names or PAN cards.',
+      title: 'Anxiety-Free Privacy',
+      benefit: '100% Isolated & Private',
+      description: 'We ban the collection of real-world identity markers—no names, no phone numbers, and no linked personal tracking. Because our system isolates your financial data from your identity, your transaction history remains completely untraceable to you.',
       icon: ShieldCheck,
       iconColor: 'text-indigo-600 bg-indigo-50 border-indigo-100',
     },
@@ -40,7 +42,7 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
       benefit: 'Savings Discovery',
       description: 'Our rule-based engine screens line descriptions for key markers like "EPF", "ELSS", "Rent", "Health Insurance", or "NPS" to surface benefits that can dramatically lower your net taxable base.',
       icon: Coins,
-      iconColor: 'text-amber-600 bg-amber-50 border-amber-100',
+      iconColor: 'text-amber-600 bg-emerald-50 border-emerald-100',
       badge: 'Smart Match'
     },
     {
@@ -82,7 +84,7 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
             A comforting, mindful approach to Indian tax & finance
           </h2>
           <p className="text-base text-gray-600 font-sans">
-            Taxes are stressful enough without data concerns or overwhelming calculators. We help you make complete sense of your filings, identify hidden exemptions, and build better wealth-management habits completely offline.
+            Taxes are stressful enough without data concerns or overwhelming calculators. We help you make complete sense of your filings, identify hidden exemptions, and build better wealth-management habits completely privately.
           </p>
         </div>
 
@@ -138,6 +140,106 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
           })}
         </div>
 
+        {/* The Narrative / Manifesto Block */}
+        <div className="mt-32 border border-gray-150 bg-linear-to-b from-slate-50/60 to-white rounded-3xl p-8 sm:p-16 relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600" />
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div className="space-y-4">
+              <span className="text-xs uppercase tracking-widest font-extrabold text-indigo-600 font-mono">
+                The FinMynd Difference
+              </span>
+              <h3 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                How We Stand Alone
+              </h3>
+            </div>
+            
+            <p className="text-base sm:text-lg text-slate-700 font-sans leading-relaxed">
+              Traditional finance apps are built like massive storage reservoirs. They pull in your personal transaction data, map your habits, and store them forever so they can sell you out to ad networks. 
+              <br /><br />
+              Finmynd is different. We believe you deserve total control over your money with zero personal exposure. By breaking the link between your personal identity and your finances, we make it impossible for outside eyes or advertisers to track you.
+            </p>
+
+            <div className="p-6 rounded-2xl bg-emerald-50/50 border border-emerald-100 relative">
+              <p className="text-sm sm:text-base text-emerald-950 font-medium leading-relaxed">
+                <strong>FinMynd breaks the loop.</strong> We don&apos;t build profiling databases, we don&apos;t ask for email signups or mobile numbers, and we never track who you are. Your financial metrics belong entirely to you.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* The Core Feature Grid */}
+        <div className="mt-24 space-y-12">
+          <div className="max-w-3xl mx-auto text-center space-y-4">
+            <span className="text-xs uppercase tracking-widest font-extrabold text-emerald-600 font-mono">
+              Designed For Peace of Mind
+            </span>
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
+              The App with an Intentional Blindfold
+            </h3>
+            <p className="text-sm text-gray-600 font-sans">
+              Instead of a generic list of features, here is what a day-to-day experience looks like when an app doesn&apos;t know who you are.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Zero Profiling */}
+            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-indigo-100 bg-indigo-50 text-indigo-600">
+                <span className="text-xl">👤</span>
+              </div>
+              <h4 className="font-display font-extrabold text-lg text-slate-900">
+                Zero Profiling
+              </h4>
+              <p className="text-sm text-slate-600 leading-relaxed font-sans">
+                We can auto-assign your tax brackets and calculate transaction confidence metrics perfectly, but we can never connect those calculations back to your real-world identity.
+              </p>
+            </div>
+
+            {/* Zero Ad Targeted Pushes */}
+            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-rose-100 bg-rose-50 text-rose-600">
+                <span className="text-xl">🚫</span>
+              </div>
+              <h4 className="font-display font-extrabold text-lg text-slate-900">
+                Zero Ad Targeted Pushes
+              </h4>
+              <p className="text-sm text-slate-600 leading-relaxed font-sans">
+                Because we are completely blind to your transaction names and habits, it is physically impossible for us to target you with high-interest credit card ads or sponsored products.
+              </p>
+            </div>
+
+            {/* Absolute Financial Clarity */}
+            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-emerald-100 bg-emerald-50 text-emerald-600">
+                <span className="text-xl">💎</span>
+              </div>
+              <h4 className="font-display font-extrabold text-lg text-slate-900">
+                Absolute Financial Clarity
+              </h4>
+              <p className="text-sm text-slate-600 leading-relaxed font-sans">
+                You get the heavy-lifting automation of a modern enterprise expense tracker, combined with the absolute security of a closed ecosystem.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* The Architecture Transparency Matrix (Interactive Table) */}
+        <div className="mt-24 border border-gray-150 bg-slate-50/50 rounded-3xl p-6 sm:p-12">
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-10">
+            <span className="text-xs uppercase tracking-widest font-extrabold text-indigo-600 font-mono">
+              The Comparison
+            </span>
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              How We Differ From the Rest
+            </h3>
+            <p className="text-sm text-slate-600 font-sans">
+              Compare how your details are handled inside traditional financial applications versus Finmynd&apos;s identity-shielded planner.
+            </p>
+          </div>
+
+          <MatrixTable />
+        </div>
+
         {/* Inner Highlight Banner */}
         <div className="mt-16 bg-linear-to-r from-emerald-600 to-indigo-700 rounded-3xl p-8 sm:p-12 relative overflow-hidden text-white shadow-xl">
           {/* Subtle decoration */}
@@ -168,5 +270,130 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
 
       </div>
     </section>
+  );
+}
+
+function MatrixTable() {
+  const [activeState, setActiveState] = React.useState<'identity' | 'targeting' | 'control'>('identity');
+
+  const states = [
+    {
+      id: 'identity' as const,
+      name: 'User Identity',
+      icon: '👤',
+      traditional: 'Force you to log in with your email, mobile number, or Google account, linking all data to your real identity.',
+      finmynd: 'Zero login required. No email, no phone, no credentials. Your identity remains completely shielded.',
+      details: 'We believe you shouldn\'t have to prove who you are just to calculate your taxes. Our planner operates completely anonymously.'
+    },
+    {
+      id: 'targeting' as const,
+      name: 'Ad Targeting & Spam',
+      icon: '🚫',
+      traditional: 'Scan your personal transactions and habits to pitch high-interest credit cards, loans, and sponsored products.',
+      finmynd: 'Zero ad integrations, zero tracking, and zero sponsored placements. Unbiased math only.',
+      details: 'Since we don\'t track your real-world identity or store behavioral profiles, it is physically impossible for us to show you targeted ads.'
+    },
+    {
+      id: 'control' as const,
+      name: 'Data Autonomy',
+      icon: '🛡️',
+      traditional: 'Store your habits permanently on central company databases to build marketing cohorts.',
+      finmynd: 'Your financial information is your own business. We act as a helper tool, never a behavior tracker.',
+      details: 'Finmynd is designed strictly as an assistant for tax planning and discovery. You are a customer seeking clarity, not a data asset to be mined.'
+    }
+  ];
+
+  const currentState = states.find(s => s.id === activeState) || states[0];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Interactive Tabs for mobile/quick toggle */}
+      <div className="flex flex-wrap gap-2 justify-center p-1.5 bg-slate-200/40 rounded-2xl border border-gray-200/60 max-w-xl mx-auto">
+        {states.map((state) => (
+          <button
+            key={state.id}
+            onClick={() => setActiveState(state.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeState === state.id
+                ? 'bg-white text-emerald-700 shadow-xs border border-emerald-100/40'
+                : 'text-gray-500 hover:text-gray-900 hover:bg-white/50'
+            }`}
+          >
+            <span>{state.icon}</span>
+            {state.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Comparative Table */}
+      <div className="bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse table-fixed min-w-[640px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-gray-150 text-slate-500 font-mono text-[10px] uppercase tracking-wider font-extrabold">
+                <th className="p-4 sm:p-6 w-1/4">Feature Area</th>
+                <th className="p-4 sm:p-6 w-3/8 bg-rose-50/5 text-rose-800">Traditional Apps</th>
+                <th className="p-4 sm:p-6 w-3/8 bg-emerald-50/5 text-emerald-950">FinMynd</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-150">
+              {states.map((state) => {
+                const isActive = state.id === activeState;
+                return (
+                  <tr
+                    key={state.id}
+                    onClick={() => setActiveState(state.id)}
+                    className={`cursor-pointer transition-all duration-150 group ${
+                      isActive ? 'bg-emerald-500/5' : 'hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <td className="p-4 sm:p-6 font-sans font-bold text-slate-900">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg p-2 bg-slate-50 border border-slate-100 rounded-lg group-hover:scale-105 transition-transform duration-200">
+                          {state.icon}
+                        </span>
+                        <div>
+                          <span className="block text-sm sm:text-base leading-tight">{state.name}</span>
+                          <span className="text-[9px] text-emerald-600 font-mono font-semibold uppercase tracking-wider mt-1 block">
+                            Shielded
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 sm:p-6 text-xs sm:text-sm text-slate-500 bg-rose-50/5 leading-relaxed font-sans">
+                      <div className="flex gap-2 items-start">
+                        <span className="text-rose-500 mt-0.5 shrink-0 font-bold">✕</span>
+                        <span>{state.traditional}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 sm:p-6 text-xs sm:text-sm text-emerald-950 bg-emerald-50/5 font-medium leading-relaxed font-sans">
+                      <div className="flex gap-2 items-start">
+                        <span className="text-emerald-600 mt-0.5 shrink-0 font-bold">✓</span>
+                        <span>{state.finmynd}</span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Dynamic Detail Card */}
+        <div className="border-t border-gray-150 bg-slate-50/60 p-6 sm:p-8 space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-mono text-[9px] font-bold border border-emerald-100">
+              COMPANION PHILOSOPHY
+            </span>
+            <h4 className="font-display font-extrabold text-xs sm:text-sm text-slate-900">
+              A Deeper Look: {currentState.name}
+            </h4>
+          </div>
+          <p className="text-xs text-slate-600 leading-relaxed font-sans">
+            {currentState.details}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

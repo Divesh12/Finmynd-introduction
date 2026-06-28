@@ -13,11 +13,9 @@ import {
 
 interface HeroProps {
   onOpenEarlyAccess: () => void;
-  sessionPasskey: string | null;
-  onOpenLogin: () => void;
 }
 
-export default function Hero({ onOpenEarlyAccess, sessionPasskey, onOpenLogin }: HeroProps) {
+export default function Hero({ onOpenEarlyAccess }: HeroProps) {
   // Typical Indian Salaried Tax optimization areas
   const optimizationSteps = [
     { id: 1, name: 'Section 80C Investment Check', factor: 'ELSS, PPF, EPF & Tuition Fees', impact: 'Save up to ₹46,800/yr', status: '80C Maximizer' },
@@ -67,10 +65,10 @@ export default function Hero({ onOpenEarlyAccess, sessionPasskey, onOpenLogin }:
             </p>
 
             {/* Privacy highlights */}
-            <div className="bg-amber-50/60 border border-amber-200/50 rounded-xl p-4 text-sm text-amber-900 flex items-start space-x-3 max-w-2xl mx-auto lg:mx-0">
-              <Lock className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+            <div className="bg-emerald-50/60 border border-emerald-200/50 rounded-xl p-4 text-sm text-emerald-900 flex items-start space-x-3 max-w-2xl mx-auto lg:mx-0 text-left">
+              <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold">Anxiety-Free Privacy:</span> We process **only anonymous transaction records**—never any Personally Identifiable Information (PII) like names, mobile numbers, PAN cards, or bank details. Even to log in, we don't ask for email or OTPs: simply enter any self-created Passkey ID and Password to unlock your private vault workspace.
+                <span className="font-bold">Anxiety-Free Privacy:</span> Traditional financial apps anchor your sensitive transaction data directly to your personal identity. Finmynd breaks that link. We strictly ban the collection of real-world identity markers—no names, no phone numbers, and no linked personal tracking. Your transaction history remains completely untraceable back to you.
               </div>
             </div>
 
@@ -89,18 +87,6 @@ export default function Hero({ onOpenEarlyAccess, sessionPasskey, onOpenLogin }:
               >
                 Mindful Tax Planner
               </a>
-              {!sessionPasskey ? (
-                <button
-                  onClick={onOpenLogin}
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all font-mono border border-slate-200/50"
-                >
-                  🗝️ UNLOCK PRIVATE VAULT
-                </button>
-              ) : (
-                <div className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-4 py-3.5 rounded-xl">
-                  🔒 VAULT SECURED: @{sessionPasskey}
-                </div>
-              )}
             </div>
 
             {/* High-Level Benefits */}
@@ -110,8 +96,8 @@ export default function Hero({ onOpenEarlyAccess, sessionPasskey, onOpenLogin }:
                 <div className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider font-mono">No PAN, Email, or Mobile</div>
               </div>
               <div className="space-y-1">
-                <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Anonymous</div>
-                <div className="text-[11px] font-semibold text-indigo-600 uppercase tracking-wider font-mono">Passkey Setup Instantly</div>
+                <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Identity Blind</div>
+                <div className="text-[11px] font-semibold text-indigo-600 uppercase tracking-wider font-mono">No Linked Tracking</div>
               </div>
               <div className="space-y-1">
                 <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Pure Match</div>

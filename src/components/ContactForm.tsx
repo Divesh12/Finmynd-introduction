@@ -242,84 +242,102 @@ export default function ContactForm() {
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-8">
-
-              {/* Suggested Prompts */}
-              <div className="space-y-3">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <HelpCircle className="w-4 h-4 text-emerald-600" />
-                  Tap to auto-fill your message:
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {suggestedQuestions.map((q, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleQuestionClick(q.text)}
-                      className="group flex flex-col items-start p-3.5 text-left rounded-2xl border border-gray-150 bg-gray-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 hover:shadow-xs transition-all duration-200 cursor-pointer w-full"
-                    >
-                      <span className="inline-block bg-slate-200/60 group-hover:bg-emerald-100 text-slate-700 group-hover:text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-md font-mono uppercase tracking-wider mb-2">
-                        {q.tag}
-                      </span>
-                      <span className="text-xs text-gray-700 group-hover:text-gray-900 font-medium font-sans">
-                        {q.text}
-                      </span>
-                    </button>
-                  ))}
+            <div className="space-y-8">
+              {/* The Teaser Hook */}
+              <div className="bg-slate-950 text-white rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden shadow-xs border border-slate-800">
+                <div className="absolute inset-0 bg-radial from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
+                <div className="max-w-2xl mx-auto space-y-3 relative text-left sm:text-center">
+                  <span className="text-[9px] font-extrabold font-mono tracking-widest text-emerald-400 uppercase">
+                    Privacy Assurance
+                  </span>
+                  <h3 className="font-display text-lg sm:text-xl font-extrabold tracking-tight text-white leading-snug">
+                    &ldquo;We engineered our system so we couldn&apos;t watch you even if we wanted to.&rdquo;
+                  </h3>
+                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                    Most platforms ask for your trust. We decided to remove the human element entirely by making your real-world identity completely invisible to our network. You get total control over your money, with zero exposure.
+                  </p>
                 </div>
               </div>
 
-              {/* Message field */}
-              <div className="space-y-2 text-left">
-                <label htmlFor="feedback-message" className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
-                  Your message / query / request:
-                </label>
-                <div className="relative">
-                  <div className="absolute top-3.5 left-3.5 pointer-events-none text-gray-400">
-                    <MessageSquare className="w-4.5 h-4.5 text-emerald-600" />
+              <form onSubmit={handleSubmit} className="space-y-8">
+
+                {/* Suggested Prompts */}
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <HelpCircle className="w-4 h-4 text-emerald-600" />
+                    Tap to auto-fill your message:
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {suggestedQuestions.map((q, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleQuestionClick(q.text)}
+                        className="group flex flex-col items-start p-3.5 text-left rounded-2xl border border-gray-150 bg-gray-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 hover:shadow-xs transition-all duration-200 cursor-pointer w-full"
+                      >
+                        <span className="inline-block bg-slate-200/60 group-hover:bg-emerald-100 text-slate-700 group-hover:text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-md font-mono uppercase tracking-wider mb-2">
+                          {q.tag}
+                        </span>
+                        <span className="text-xs text-gray-700 group-hover:text-gray-900 font-medium font-sans">
+                          {q.text}
+                        </span>
+                      </button>
+                    ))}
                   </div>
-                  <textarea
-                    id="feedback-message"
-                    required
-                    rows={5}
-                    placeholder="Describe your tax concern or request. e.g. I want to calculate Section 87A marginal relief on my ₹12.75L salary. Can you build an interactive visualization chart?"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 text-sm rounded-2xl border border-gray-250 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-gray-900 placeholder-gray-400 font-sans leading-relaxed shadow-inner bg-white"
-                  />
                 </div>
-              </div>
 
-              {/* Micro Privacy Banner */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-gray-150 flex items-center space-x-3 shadow-xs text-left">
-                <ShieldCheck className="w-6 h-6 text-emerald-600 flex-shrink-0" />
-                <span className="text-xs text-gray-500 font-sans">
-                  <strong>FinMynd Zero-Leak Guarantee:</strong> No email logins, names, trackers, or financial files leave your client session. Your inputs remain entirely sandboxed.
-                </span>
-              </div>
+                {/* Message field */}
+                <div className="space-y-2 text-left">
+                  <label htmlFor="feedback-message" className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
+                    Your message / query / request:
+                  </label>
+                  <div className="relative">
+                    <div className="absolute top-3.5 left-3.5 pointer-events-none text-gray-400">
+                      <MessageSquare className="w-4.5 h-4.5 text-emerald-600" />
+                    </div>
+                    <textarea
+                      id="feedback-message"
+                      required
+                      rows={5}
+                      placeholder="Describe your tax concern or request. e.g. I want to calculate Section 87A marginal relief on my ₹12.75L salary. Can you build an interactive visualization chart?"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 text-sm rounded-2xl border border-gray-250 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-gray-900 placeholder-gray-400 font-sans leading-relaxed shadow-inner bg-white"
+                    />
+                  </div>
+                </div>
 
-              {/* Submit button */}
-              <button
-                type="submit"
-                disabled={isSubmitting || !message.trim()}
-                className="w-full inline-flex items-center justify-center py-4 px-4 rounded-2xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-300 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/10 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/20 cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Filing your secure entry...
+                {/* Micro Privacy Banner */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-gray-150 flex items-center space-x-3 shadow-xs text-left">
+                  <ShieldCheck className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                  <span className="text-xs text-gray-500 font-sans">
+                    <strong>Anxiety-Free Privacy:</strong> We strictly ban the collection of real-world identity markers—no names, no phone numbers, and no linked personal tracking. Your feedback is fully anonymous.
                   </span>
-                ) : (
-                  <span className="inline-flex items-center gap-2">
-                    Submit Query to FinMynd
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                )}
-              </button>
-            </form>
+                </div>
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !message.trim()}
+                  className="w-full inline-flex items-center justify-center py-4 px-4 rounded-2xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-300 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/10 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/20 cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Filing your secure entry...
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-2">
+                      Submit Query to FinMynd
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  )}
+                </button>
+              </form>
+            </div>
           )}
 
         </div>
