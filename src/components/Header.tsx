@@ -50,21 +50,14 @@ export default function Header({ onOpenEarlyAccess, sessionPasskey, onOpenLogin,
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-indigo-500 rounded-full border-2 border-white" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-2xl font-black tracking-tight text-gray-900 leading-none">
-                Fin<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600 drop-shadow-xs font-black">Mynd</span>
+              <span className="font-display text-2xl font-black tracking-tight text-gray-900 leading-normal pb-0.5 inline-block">
+                Fin<span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600 drop-shadow-xs font-black align-bottom">Mynd</span>
                 <span className="text-indigo-600">.</span>
               </span>
-              <span className="text-[9px] font-mono font-extrabold text-indigo-500 tracking-wider uppercase leading-none mt-1.5">
+              <span className="text-[9px] font-mono font-extrabold text-indigo-500 tracking-wider uppercase leading-none mt-0.5">
                 mindful tax companion
               </span>
             </div>
-            <span className="hidden lg:inline-flex items-center gap-1.5 bg-emerald-50/80 text-emerald-700 text-[10px] font-extrabold px-3 py-1 rounded-full border border-emerald-100 font-mono shadow-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              100% Client-Side Private
-            </span>
           </a>
 
           {/* Desktop Navigation */}

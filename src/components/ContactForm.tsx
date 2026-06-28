@@ -151,7 +151,7 @@ export default function ContactForm() {
             <span>Integrated Feedback & Routing</span>
           </span>
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Have a Complex Tax Question? Ask <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold">FinMynd</span>
+            Have a Complex Tax Question? Ask <span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold align-bottom">FinMynd</span>
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed font-sans">
             Whether you are curious about the new ₹12.5 Lakh zero-tax threshold, Section 87A marginal relief computations, or want us to code a custom visual chart—just type below. 

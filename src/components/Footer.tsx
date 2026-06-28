@@ -15,11 +15,11 @@ export default function Footer() {
                 <Sparkles className="w-5 h-5 text-white animate-pulse" />
               </div>
               <div className="flex flex-col">
-                <span className="font-display text-xl font-extrabold tracking-tight text-white leading-none">
-                  Fin<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-450">Mynd</span>
+                <span className="font-display text-xl font-extrabold tracking-tight text-white leading-normal pb-0.5 inline-block">
+                  Fin<span className="inline-block pb-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-450 align-bottom">Mynd</span>
                   <span className="text-emerald-400">.</span>
                 </span>
-                <span className="text-[8px] font-mono font-extrabold text-indigo-400 tracking-wider uppercase leading-none mt-1.5">
+                <span className="text-[8px] font-mono font-extrabold text-indigo-400 tracking-wider uppercase leading-none mt-0.5">
                   mindful tax companion
                 </span>
               </div>
@@ -31,7 +31,7 @@ export default function Footer() {
 
             <div className="flex items-center space-x-2 text-[10px] text-slate-500 font-mono">
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <span>100% Client-Side Private • No Server Storage</span>
+              <span>Zero-PII Secure Workspace • No Server Storage</span>
             </div>
           </div>
 
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Privacy/Status block */}
           <div className="md:col-span-4 space-y-4">
-            <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px] block">Privacy & Client-Side Design</h4>
+            <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px] block">Privacy & Zero-PII Design</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               We operate strictly under a local-only architecture. All parsed financial logs, statement lines, and deduction results remain stored securely in your web browser memory.
             </p>

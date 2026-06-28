@@ -55,7 +55,7 @@ export default function Hero({ onOpenEarlyAccess, sessionPasskey, onOpenLogin }:
               Make Sense of Taxes.<br />
               Reduce Stress with <span className="relative inline-block whitespace-nowrap">
                 <span className="absolute -inset-1.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-500 rounded-lg blur-xs opacity-20 animate-pulse" style={{ animationDuration: '3s' }} />
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold pr-1">
+                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 font-extrabold pr-1 pb-1 inline-block">
                   FinMynd
                 </span>
               </span>
