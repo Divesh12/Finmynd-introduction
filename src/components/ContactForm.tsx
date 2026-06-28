@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
   ShieldCheck, 
   MessageSquare, 
   Sparkles, 
-  HelpCircle,
-  Settings,
-  Link2,
-  Check
+  HelpCircle
 } from 'lucide-react';
 
 export default function ContactForm() {
@@ -18,90 +15,6 @@ export default function ContactForm() {
 
   const defaultUrl = (import.meta as any).env?.VITE_GOOGLE_FORM_URL || 'https://docs.google.com/forms/d/e/1FAIpQLSeGZKwX934TAmYXEMfRs4i7igBBODcdyoFHhhFN9kkGebAtOQ/viewform';
   const defaultEntryId = (import.meta as any).env?.VITE_GOOGLE_FORM_ENTRY_ID || 'entry.1569938489';
-
-  // State to hold the actively used Google Form configuration
-  const [formUrl, setFormUrl] = useState(() => {
-    try {
-      return localStorage.getItem('finmynd_custom_form_url') || defaultUrl;
-    } catch (e) {
-      return defaultUrl;
-    }
-  });
-
-  const [entryId, setEntryId] = useState(() => {
-    try {
-      return localStorage.getItem('finmynd_custom_entry_id') || defaultEntryId;
-    } catch (e) {
-      return defaultEntryId;
-    }
-  });
-
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
-
-  // Automatically detect and save Google Form configurations passed in browser URL (case-insensitive)
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const parseParams = (queryString: string) => {
-        const params = new URLSearchParams(queryString);
-        let foundUrl = '';
-        let foundEntry = '';
-        
-        params.forEach((value, key) => {
-          const lowerKey = key.toLowerCase();
-          if (lowerKey === 'form_url' || lowerKey === 'url' || lowerKey === 'formurl') {
-            foundUrl = value;
-          } else if (lowerKey === 'entry_id' || lowerKey === 'entry' || lowerKey === 'entryid') {
-            foundEntry = value;
-          } else if (lowerKey.startsWith('entry.')) {
-            foundEntry = key;
-          }
-        });
-        
-        return { foundUrl, foundEntry };
-      };
-
-      // Check current query search parameters (?...)
-      let { foundUrl, foundEntry } = parseParams(window.location.search);
-      
-      // Fallback check: Hash parameters (#...)
-      if (!foundUrl || !foundEntry) {
-        const hashIndex = window.location.hash.indexOf('?');
-        const hashQuery = hashIndex !== -1 ? window.location.hash.substring(hashIndex) : window.location.hash.replace(/^#/, '?');
-        const hashResult = parseParams(hashQuery);
-        if (!foundUrl && hashResult.foundUrl) foundUrl = hashResult.foundUrl;
-        if (!foundEntry && hashResult.foundEntry) foundEntry = hashResult.foundEntry;
-      }
-
-      // Fallback check: Parent referrer query parameters (for embedded iframe environments)
-      try {
-        if (document.referrer) {
-          const refUrl = new URL(document.referrer);
-          const refResult = parseParams(refUrl.search);
-          if (!foundUrl && refResult.foundUrl) foundUrl = refResult.foundUrl;
-          if (!foundEntry && refResult.foundEntry) foundEntry = refResult.foundEntry;
-        }
-      } catch (e) {}
-
-      // Update state and write to localStorage to persist custom configuration
-      if (foundUrl) {
-        const cleanUrl = foundUrl.trim();
-        setFormUrl(cleanUrl);
-        try {
-          localStorage.setItem('finmynd_custom_form_url', cleanUrl);
-        } catch (e) {}
-      }
-      if (foundEntry) {
-        let cleanEntry = foundEntry.trim();
-        if (!cleanEntry.startsWith('entry.')) {
-          cleanEntry = `entry.${cleanEntry}`;
-        }
-        setEntryId(cleanEntry);
-        try {
-          localStorage.setItem('finmynd_custom_entry_id', cleanEntry);
-        } catch (e) {}
-      }
-    }
-  }, []);
 
   const suggestedQuestions = [
     { text: "Is ₹12.5L really tax-free in the New Regime?", tag: "Budget 2025" },
@@ -123,11 +36,8 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
 
-    const activeUrl = formUrl.trim();
-    const activeEntryId = entryId.trim();
-
-    // Convert active URL to /formResponse format
-    let cleanUrl = activeUrl;
+    // Convert default URL to /formResponse format
+    let cleanUrl = defaultUrl;
     if (cleanUrl.includes('?')) {
       cleanUrl = cleanUrl.split('?')[0];
     }
@@ -139,13 +49,12 @@ export default function ContactForm() {
       cleanUrl = `${cleanUrl}/formResponse`;
     }
 
-    const entryKey = activeEntryId.startsWith('entry.') ? activeEntryId : `entry.${activeEntryId}`;
+    const entryKey = defaultEntryId.startsWith('entry.') ? defaultEntryId : `entry.${defaultEntryId}`;
 
     console.log(`[Form Submission] Target response URL: ${cleanUrl}`);
     console.log(`[Form Submission] Question Entry Field: ${entryKey}`);
 
     // --- TRANSMISSION ROUTE: Secure Server-side Proxy Relay (Bypasses local browser CORS/adblockers securely, single submission) ---
-    const isCustom = activeUrl !== defaultUrl || activeEntryId !== defaultEntryId;
     let submittedViaBackend = false;
     try {
       const response = await fetch('/api/submit-form', {
@@ -154,9 +63,7 @@ export default function ContactForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          message: message.trim(),
-          formUrl: isCustom ? activeUrl : undefined,
-          entryId: isCustom ? activeEntryId : undefined
+          message: message.trim()
         }),
       });
 
@@ -240,9 +147,7 @@ export default function ContactForm() {
       const newSubmission = {
         id: Date.now().toString() + '-' + Math.random().toString(36).substring(2, 9),
         message: message,
-        submittedAt: new Date().toISOString(),
-        formUrl: activeUrl,
-        entryId: activeEntryId
+        submittedAt: new Date().toISOString()
       };
       localStorage.setItem('finmynd_feedback', JSON.stringify([...submissions, newSubmission]));
     } catch (err) {

@@ -16,7 +16,7 @@ async function startServer() {
   // Server-side submission relay to Google Forms
   app.post("/api/submit-form", async (req, res) => {
     try {
-      const { message, formUrl: clientFormUrl, entryId: clientEntryId } = req.body;
+      const { message } = req.body;
       if (!message || !message.trim()) {
         return res.status(400).json({ success: false, error: "Query message is required" });
       }
@@ -25,9 +25,9 @@ async function startServer() {
       const defaultUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeGZKwX934TAmYXEMfRs4i7igBBODcdyoFHhhFN9kkGebAtOQ/viewform';
       const defaultEntryId = '1569938489';
 
-      // Load form details with priority: 1) Client body, 2) Environment variables, 3) Default values
-      const formUrl = clientFormUrl || process.env.VITE_GOOGLE_FORM_URL || defaultUrl;
-      const entryId = clientEntryId || process.env.VITE_GOOGLE_FORM_ENTRY_ID || defaultEntryId;
+      // Load form details with priority: 1) Environment variables, 2) Default values
+      const formUrl = process.env.VITE_GOOGLE_FORM_URL || defaultUrl;
+      const entryId = process.env.VITE_GOOGLE_FORM_ENTRY_ID || defaultEntryId;
 
       // Extract base view URL and convert to formResponse URL
       let cleanUrl = formUrl.trim();
