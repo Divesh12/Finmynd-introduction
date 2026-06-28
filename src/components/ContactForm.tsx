@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -15,6 +15,85 @@ export default function ContactForm() {
 
   const defaultUrl = (import.meta as any).env?.VITE_GOOGLE_FORM_URL || 'https://docs.google.com/forms/d/e/1FAIpQLSeGZKwX934TAmYXEMfRs4i7igBBODcdyoFHhhFN9kkGebAtOQ/viewform';
   const defaultEntryId = (import.meta as any).env?.VITE_GOOGLE_FORM_ENTRY_ID || 'entry.1569938489';
+
+  // Automatically detect and save Google Form configurations passed in browser URL (case-insensitive) silently
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const parseParams = (queryString: string) => {
+        const params = new URLSearchParams(queryString);
+        let foundUrl = '';
+        let foundEntry = '';
+        
+        params.forEach((value, key) => {
+          const lowerKey = key.toLowerCase();
+          if (lowerKey === 'form_url' || lowerKey === 'url' || lowerKey === 'formurl') {
+            foundUrl = value;
+          } else if (lowerKey === 'entry_id' || lowerKey === 'entry' || lowerKey === 'entryid') {
+            foundEntry = value;
+          } else if (lowerKey.startsWith('entry.')) {
+            foundEntry = key;
+          }
+        });
+        
+        return { foundUrl, foundEntry };
+      };
+
+      // Check current query search parameters (?...)
+      let { foundUrl, foundEntry } = parseParams(window.location.search);
+      
+      // Fallback check: Hash parameters (#...)
+      if (!foundUrl || !foundEntry) {
+        const hashIndex = window.location.hash.indexOf('?');
+        const hashQuery = hashIndex !== -1 ? window.location.hash.substring(hashIndex) : window.location.hash.replace(/^#/, '?');
+        const hashResult = parseParams(hashQuery);
+        if (!foundUrl && hashResult.foundUrl) foundUrl = hashResult.foundUrl;
+        if (!foundEntry && hashResult.foundEntry) foundEntry = hashResult.foundEntry;
+      }
+
+      // Fallback check: Parent referrer query parameters (for embedded iframe environments)
+      try {
+        if (document.referrer) {
+          const refUrl = new URL(document.referrer);
+          const refResult = parseParams(refUrl.search);
+          if (!foundUrl && refResult.foundUrl) foundUrl = refResult.foundUrl;
+          if (!foundEntry && refResult.foundEntry) foundEntry = refResult.foundEntry;
+        }
+      } catch (e) {}
+
+      // Update and write to localStorage to persist custom configuration
+      if (foundUrl) {
+        let cleanUrl = foundUrl.trim();
+        if (cleanUrl.includes('?')) {
+          try {
+            const urlObj = new URL(cleanUrl);
+            const params = new URLSearchParams(urlObj.search);
+            params.forEach((val, key) => {
+              if (key.startsWith('entry.')) {
+                foundEntry = key;
+              }
+            });
+            cleanUrl = urlObj.origin + urlObj.pathname;
+          } catch (e) {
+            cleanUrl = cleanUrl.split('?')[0];
+          }
+        }
+        try {
+          localStorage.setItem('finmynd_custom_form_url', cleanUrl);
+          console.log("⚙️ Saved custom form URL to localStorage:", cleanUrl);
+        } catch (e) {}
+      }
+      if (foundEntry) {
+        let cleanEntry = foundEntry.trim();
+        if (!cleanEntry.startsWith('entry.')) {
+          cleanEntry = `entry.${cleanEntry}`;
+        }
+        try {
+          localStorage.setItem('finmynd_custom_entry_id', cleanEntry);
+          console.log("⚙️ Saved custom entry ID to localStorage:", cleanEntry);
+        } catch (e) {}
+      }
+    }
+  }, []);
 
   const suggestedQuestions = [
     { text: "Is ₹12.5L really tax-free in the New Regime?", tag: "Budget 2025" },
@@ -36,8 +115,18 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
 
-    // Convert default URL to /formResponse format
-    let cleanUrl = defaultUrl;
+    // Retrieve form parameters dynamically with local preference
+    let activeUrl = defaultUrl;
+    let activeEntryId = defaultEntryId;
+    try {
+      const savedUrl = localStorage.getItem('finmynd_custom_form_url');
+      const savedEntry = localStorage.getItem('finmynd_custom_entry_id');
+      if (savedUrl) activeUrl = savedUrl;
+      if (savedEntry) activeEntryId = savedEntry;
+    } catch (err) {}
+
+    // Convert URL to /formResponse format
+    let cleanUrl = activeUrl;
     if (cleanUrl.includes('?')) {
       cleanUrl = cleanUrl.split('?')[0];
     }
@@ -49,96 +138,68 @@ export default function ContactForm() {
       cleanUrl = `${cleanUrl}/formResponse`;
     }
 
-    const entryKey = defaultEntryId.startsWith('entry.') ? defaultEntryId : `entry.${defaultEntryId}`;
+    const entryKey = activeEntryId.startsWith('entry.') ? activeEntryId : `entry.${activeEntryId}`;
 
     console.log(`[Form Submission] Target response URL: ${cleanUrl}`);
     console.log(`[Form Submission] Question Entry Field: ${entryKey}`);
 
-    // --- TRANSMISSION ROUTE: Secure Server-side Proxy Relay (Bypasses local browser CORS/adblockers securely, single submission) ---
-    let submittedViaBackend = false;
+    // --- TRANSMISSION ROUTE: Secure Direct Client-side Submission (Zero-CORS, serverless, compatible with static hosts like GitHub Pages) ---
+    console.log("🔄 Initiating client-side direct form submission...");
     try {
-      const response = await fetch('/api/submit-form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          message: message.trim()
-        }),
+      // Create hidden iframe and form to submit without CORS issues
+      const iframeId = 'hidden_iframe_submit_' + Math.random().toString(36).substring(2, 9);
+      const iframe = document.createElement('iframe');
+      iframe.name = iframeId;
+      iframe.id = iframeId;
+      // Style off-screen instead of display: none to prevent modern browsers from blocking the form submit in a hidden container
+      iframe.style.position = 'absolute';
+      iframe.style.width = '1px';
+      iframe.style.height = '1px';
+      iframe.style.top = '-9999px';
+      iframe.style.left = '-9999px';
+      iframe.style.opacity = '0.01';
+      iframe.style.pointerEvents = 'none';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.action = cleanUrl;
+      form.method = 'POST';
+      form.target = iframeId;
+
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = entryKey;
+      input.value = message.trim();
+      form.appendChild(input);
+
+      // Add standard google form submit auxiliary fields
+      const extraFields = {
+        fvv: "1",
+        pageHistory: "0",
+        draftResponse: "[]",
+        submit: "Submit"
+      };
+      Object.entries(extraFields).forEach(([key, val]) => {
+        const field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = key;
+        field.value = val;
+        form.appendChild(field);
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          console.log("🚀 Submission dispatched via backend Server Proxy. Google Forms HTTP status:", data.status);
-          submittedViaBackend = true;
-          if (data.preview) {
-            console.log("[Server Google Response Preview]", data.preview);
-          }
-        } else {
-          console.warn("⚠️ Server Proxy submission warning:", data.error);
-        }
-      }
-    } catch (serverErr) {
-      console.error("❌ Server Proxy submission error, attempting client-side fallback:", serverErr);
-    }
+      document.body.appendChild(form);
+      form.submit();
 
-    if (!submittedViaBackend) {
-      console.log("🔄 Initiating client-side direct form submit fallback...");
-      try {
-        // Create hidden iframe and form to submit without CORS issues
-        const iframeId = 'hidden_iframe_submit_' + Math.random().toString(36).substring(2, 9);
-        const iframe = document.createElement('iframe');
-        iframe.name = iframeId;
-        iframe.id = iframeId;
-        // Style off-screen instead of display: none to prevent modern browsers from blocking the form submit in a hidden container
-        iframe.style.position = 'absolute';
-        iframe.style.width = '1px';
-        iframe.style.height = '1px';
-        iframe.style.top = '-9999px';
-        iframe.style.left = '-9999px';
-        iframe.style.opacity = '0.01';
-        iframe.style.pointerEvents = 'none';
-        document.body.appendChild(iframe);
-
-        const form = document.createElement('form');
-        form.action = cleanUrl;
-        form.method = 'POST';
-        form.target = iframeId;
-
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = entryKey;
-        input.value = message.trim();
-        form.appendChild(input);
-
-        // Add standard google form submit auxiliary fields
-        const extraFields = {
-          fvv: "1",
-          pageHistory: "0",
-          draftResponse: "[]",
-          submit: "Submit"
-        };
-        Object.entries(extraFields).forEach(([key, val]) => {
-          const field = document.createElement('input');
-          field.type = 'hidden';
-          field.name = key;
-          field.value = val;
-          form.appendChild(field);
-        });
-
-        document.body.appendChild(form);
-        form.submit();
-
-        // Cleanup elements after submit
-        setTimeout(() => {
-          document.body.removeChild(form);
-          document.body.removeChild(iframe);
-          console.log("✅ Client-side direct fallback form submission successful.");
-        }, 1000);
-      } catch (clientErr) {
-        console.error("❌ Client-side direct submission fallback failed:", clientErr);
-      }
+      // Cleanup elements after submit
+      setTimeout(() => {
+        try {
+          if (document.body.contains(form)) document.body.removeChild(form);
+          if (document.body.contains(iframe)) document.body.removeChild(iframe);
+        } catch (e) {}
+        console.log("✅ Client-side direct form submission successful.");
+      }, 1000);
+    } catch (clientErr) {
+      console.error("❌ Client-side direct submission failed:", clientErr);
     }
 
     // Preserve locally in browser state silently as a local sandbox backup
