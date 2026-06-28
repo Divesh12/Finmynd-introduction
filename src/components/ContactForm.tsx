@@ -92,6 +92,7 @@ export default function ContactForm() {
     console.log(`[Form Submission] Question Entry Field: ${entryKey}`);
 
     // --- TRANSMISSION ROUTE: Secure Server-side Proxy Relay (Bypasses local browser CORS/adblockers securely, single submission) ---
+    let submittedViaBackend = false;
     try {
       const response = await fetch('/api/submit-form', {
         method: 'POST',
@@ -105,17 +106,71 @@ export default function ContactForm() {
         }),
       });
 
-      const data = await response.json();
-      if (data.success) {
-        console.log("🚀 Submission dispatched via backend Server Proxy. Google Forms HTTP status:", data.status);
-        if (data.preview) {
-          console.log("[Server Google Response Preview]", data.preview);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          console.log("🚀 Submission dispatched via backend Server Proxy. Google Forms HTTP status:", data.status);
+          submittedViaBackend = true;
+          if (data.preview) {
+            console.log("[Server Google Response Preview]", data.preview);
+          }
+        } else {
+          console.warn("⚠️ Server Proxy submission warning:", data.error);
         }
-      } else {
-        console.warn("⚠️ Server Proxy submission warning:", data.error);
       }
     } catch (serverErr) {
-      console.error("❌ Server Proxy submission error:", serverErr);
+      console.error("❌ Server Proxy submission error, attempting client-side fallback:", serverErr);
+    }
+
+    if (!submittedViaBackend) {
+      console.log("🔄 Initiating client-side direct form submit fallback...");
+      try {
+        // Create hidden iframe and form to submit without CORS issues
+        const iframeId = 'hidden_iframe_submit_' + Math.random().toString(36).substring(2, 9);
+        const iframe = document.createElement('iframe');
+        iframe.name = iframeId;
+        iframe.id = iframeId;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        const form = document.createElement('form');
+        form.action = cleanUrl;
+        form.method = 'POST';
+        form.target = iframeId;
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = entryKey;
+        input.value = message.trim();
+        form.appendChild(input);
+
+        // Add standard google form submit auxiliary fields
+        const extraFields = {
+          fvv: "1",
+          pageHistory: "0",
+          draftResponse: "[]",
+          submit: "Submit"
+        };
+        Object.entries(extraFields).forEach(([key, val]) => {
+          const field = document.createElement('input');
+          field.type = 'hidden';
+          field.name = key;
+          field.value = val;
+          form.appendChild(field);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+
+        // Cleanup elements after submit
+        setTimeout(() => {
+          document.body.removeChild(form);
+          document.body.removeChild(iframe);
+          console.log("✅ Client-side direct fallback form submission successful.");
+        }, 1000);
+      } catch (clientErr) {
+        console.error("❌ Client-side direct submission fallback failed:", clientErr);
+      }
     }
 
     // Preserve locally in browser state silently as a local sandbox backup
