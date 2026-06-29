@@ -83,50 +83,11 @@ export default function TransactionScanner() {
     };
   }, [inputText]);
 
-  // Load a sample template
-  const handleLoadSample = (key: keyof typeof samples) => {
-    setInputText(samples[key]);
-    setIsScanned(false);
-  };
+  // Load a sample template automatically scanning it
+  const handleScanOfText = (textToScan: string) => {
+    if (!textToScan.trim()) return;
 
-  // Local drag and drop file simulation
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    // Simulate reading statement text from the file safely
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      // Create a nice safe representation of reading transactions from a statement
-      // Since we don't want to upload files to a server, we generate a mock parser
-      // representation that simulates reading the file lines
-      setInputText(`[Simulated Bank Statement Import: ${files[0].name}]
-01-Apr-2026 EPF EMPLOYEE CONTRIBUTION DEDUCTION - ₹8,500
-05-Apr-2026 MONTHLY HOUSE RENT DEPOSIT - ₹18,000
-15-Apr-2026 AXIS LONG TERM ELSS DIRECT FUND - ₹10,000
-20-Apr-2026 LIC POLICY ANNUAL SAVINGS PREMIUM - ₹22,000
-05-May-2026 MONTHLY HOUSE RENT DEPOSIT - ₹18,000
-12-May-2026 MAX BUPA MEDICAL INSURANCE HEALTH - ₹15,000
-18-May-2026 NPS TRUST SUBSCRIPTION TIER 1 - ₹15,000
-05-Jun-2026 MONTHLY HOUSE RENT DEPOSIT - ₹18,000`);
-      setIsScanned(false);
-    }
-  };
-
-  // Completely rule-based transaction match scanner
-  const handleScan = () => {
-    if (!inputText.trim()) return;
-
-    const lines = inputText.split('\n');
+    const lines = textToScan.split('\n');
     const items: TransactionItem[] = [];
 
     lines.forEach((line, index) => {
@@ -228,33 +189,23 @@ export default function TransactionScanner() {
       }
 
       // Try to extract amount
-      // Look for ₹ symbols, INR symbols, or numbers at the end
       let amount = 0;
-      const amountRegex = /(?:₹|rs\.?|inr)?\s*([\d,]+(?:\.\d+)?)/i;
-      const match = trimmed.match(amountRegex);
-      
-      // Better fallback: match the last numbers on the row
       const numbersInLine = trimmed.replace(/,/g, '').match(/\d+/g);
       if (numbersInLine && numbersInLine.length > 0) {
-        // Grab the largest or last number as it typically represents amount
         const lastNum = parseInt(numbersInLine[numbersInLine.length - 1]);
         if (!isNaN(lastNum) && lastNum > 100) {
           amount = lastNum;
         }
       }
 
-      if (amount === 0 && match) {
-        amount = parseFloat(match[1].replace(/,/g, '')) || 0;
-      }
-
       items.push({
         id: `tx-${index}-${Date.now()}`,
         description: trimmed.split('-')[0].split('₹')[0].trim(),
-        amount: amount || 2000, // Safe default fallback
+        amount: amount || 2000,
         date: trimmed.match(/^\d{2}-\w{3}-\d{4}/)?.[0] || 'FY 2026-27',
         detectedSection,
         confidence,
-        savingPotential: eligible ? Math.round(amount * 0.30) : 0, // typical 30% slab rate estimate
+        savingPotential: eligible ? Math.round(amount * 0.30) : 0,
         actionTip,
         isEligible: eligible
       });
@@ -264,30 +215,40 @@ export default function TransactionScanner() {
     setIsScanned(true);
   };
 
+  const handleLoadSample = (key: keyof typeof samples) => {
+    const text = samples[key];
+    setInputText(text);
+    handleScanOfText(text);
+  };
+
+  // Preload first sample on mount
+  React.useEffect(() => {
+    handleLoadSample('statementA');
+  }, []);
+
+  // Local drag and drop file simulation
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  // Completely rule-based transaction match scanner
+  const handleScan = () => {
+    handleScanOfText(inputText);
+  };
+
   // Add custom manual transaction item if they want to add rows
   const handleAddCustom = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customDescription || !customAmount) return;
-
-    const amt = parseFloat(customAmount) || 0;
-    const isTaxBenefit = customSection !== 'Non-Tax Deductible';
-
-    const newItem: TransactionItem = {
-      id: `custom-${Date.now()}`,
-      description: customDescription,
-      amount: amt,
-      date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
-      detectedSection: customSection,
-      confidence: 'High',
-      savingPotential: isTaxBenefit ? Math.round(amt * 0.30) : 0,
-      actionTip: isTaxBenefit ? `Manually added deduction benefit under ${customSection}.` : 'Standard personal expense.',
-      isEligible: isTaxBenefit
-    };
-
-    setScannedItems(prev => [newItem, ...prev]);
-    setCustomDescription('');
-    setCustomAmount('');
-    setIsScanned(true);
   };
 
   const handleToggleEligibility = (id: string) => {
@@ -394,41 +355,37 @@ export default function TransactionScanner() {
               
               <div className="flex items-center justify-between">
                 <h3 className="font-display font-semibold text-gray-900 text-sm">
-                  Step 1: Paste Transactions / Statement Lines
+                  Step 1: Explore Pre-loaded Statements
                 </h3>
-                <button
-                  type="button"
-                  onClick={clearAll}
-                  className="text-xs text-rose-600 hover:text-rose-700 font-semibold"
-                >
-                  Clear All
-                </button>
+                <span className="text-[9px] bg-indigo-50 border border-indigo-200 text-indigo-700 px-2 py-0.5 rounded-full font-bold uppercase font-mono tracking-wider">
+                  Interactive Demo
+                </span>
               </div>
 
               {/* Sample statement quick triggers */}
               <div className="space-y-1.5">
                 <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">
-                  Click to try with pre-cleaned samples:
+                  Click to scan different pre-cleaned samples:
                 </span>
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => handleLoadSample('statementA')}
-                    className="text-[10px] font-medium bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-100 hover:bg-emerald-100 transition-colors"
+                    className="text-[10px] font-medium bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-100 hover:bg-emerald-100 transition-colors cursor-pointer"
                   >
                     Sample Rent & ELSS
                   </button>
                   <button
                     type="button"
                     onClick={() => handleLoadSample('statementB')}
-                    className="text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md border border-indigo-100 hover:bg-indigo-100 transition-colors"
+                    className="text-[10px] font-medium bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md border border-indigo-100 hover:bg-indigo-100 transition-colors cursor-pointer"
                   >
                     Home Loan & NPS
                   </button>
                   <button
                     type="button"
                     onClick={() => handleLoadSample('statementC')}
-                    className="text-[10px] font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-md border border-amber-100 hover:bg-amber-100 transition-colors"
+                    className="text-[10px] font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-md border border-amber-100 hover:bg-amber-100 transition-colors cursor-pointer"
                   >
                     LIC & Prov Fund
                   </button>
@@ -437,25 +394,17 @@ export default function TransactionScanner() {
 
               {/* Drag and Drop Zone */}
               <div
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                className={`border-2 border-dashed rounded-2xl p-4 text-center transition-all ${
-                  isDragOver
-                    ? 'border-emerald-500 bg-emerald-50/40'
-                    : 'border-gray-200 hover:border-gray-300 bg-white'
-                }`}
+                className="border border-gray-200 rounded-2xl p-4 text-center bg-gray-50/50 relative group"
               >
                 <textarea
                   value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Paste bank statement rows here... E.g.&#10;12-Apr SIP MUTUAL FUND ELSS - ₹12,500&#10;18-Apr INSURANCE PREMIUM PAYMENT - ₹10,000&#10;Or drop your statement file anywhere in this box."
-                  className="w-full h-48 text-xs font-mono bg-transparent border-0 focus:ring-0 p-0 resize-none text-gray-800 placeholder-gray-400 focus:outline-hidden"
+                  readOnly={true}
+                  className="w-full h-48 text-xs font-mono bg-transparent border-0 focus:ring-0 p-0 resize-none text-gray-500 placeholder-gray-400 focus:outline-hidden cursor-not-allowed selection:bg-slate-200"
                 />
                 <div className="pt-2 border-t border-gray-100 flex flex-col items-center justify-center gap-1 text-[10px] text-gray-400">
-                  <div className="flex items-center gap-1.5">
-                    <UploadCloud className="w-4 h-4 text-gray-400" />
-                    <span>No Upload, Zero Storage: Statements are parsed strictly in-memory to run our algorithms.</span>
+                  <div className="flex items-center gap-1.5 font-medium text-slate-500">
+                    <Lock className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Upload & Paste are locked in read-only glimpse mode.</span>
                   </div>
                 </div>
               </div>
@@ -498,62 +447,25 @@ export default function TransactionScanner() {
               {/* Action Trigger */}
               <button
                 type="button"
-                onClick={handleScan}
-                disabled={!inputText.trim()}
-                className="w-full inline-flex items-center justify-center py-3 px-4 rounded-xl text-xs font-bold text-white bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 transition-all shadow-sm"
+                disabled={true}
+                className="w-full inline-flex items-center justify-center py-3 px-4 rounded-xl text-xs font-bold text-gray-400 bg-gray-100 border border-gray-200 cursor-not-allowed transition-all"
               >
-                <Play className="w-3.5 h-3.5 mr-2" />
-                Analyze Transactions locally
+                <Lock className="w-3.5 h-3.5 mr-2 text-gray-400" />
+                Deduction Parser Engine Active (Read-Only)
               </button>
             </div>
 
-            {/* Step 1.5: Manual add transaction */}
-            <div className="bg-gray-50 border border-gray-200 rounded-3xl p-6 space-y-4">
-              <h3 className="font-display font-semibold text-gray-900 text-sm">
-                Or Add a Manual Deduction
+            {/* Step 1.5: Locked Manual entry */}
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 text-center space-y-3 relative overflow-hidden">
+              <div className="w-10 h-10 bg-slate-100 border border-slate-200 rounded-xl flex items-center justify-center mx-auto text-slate-400">
+                <Lock className="w-5 h-5 text-gray-400" />
+              </div>
+              <h3 className="font-display font-semibold text-gray-700 text-sm">
+                Manual Deduction Creation Locked
               </h3>
-              <form onSubmit={handleAddCustom} className="space-y-3">
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    type="text"
-                    placeholder="e.g. LIC Premium payment"
-                    value={customDescription}
-                    required
-                    onChange={(e) => setCustomDescription(e.target.value)}
-                    className="text-xs px-3 py-2 border border-gray-200 rounded-lg bg-white focus:outline-emerald-500 text-gray-900"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Amount in ₹"
-                    value={customAmount}
-                    required
-                    onChange={(e) => setCustomAmount(e.target.value)}
-                    className="text-xs px-3 py-2 border border-gray-200 rounded-lg bg-white focus:outline-emerald-500 text-gray-900"
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <select
-                    value={customSection}
-                    onChange={(e) => setCustomSection(e.target.value)}
-                    className="text-xs px-3 py-2 border border-gray-200 rounded-lg bg-white focus:outline-emerald-500 flex-grow text-gray-900"
-                  >
-                    <option value="Section 80C">Section 80C (EPF, ELSS, PPF)</option>
-                    <option value="Section 80D">Section 80D (Health Insurance)</option>
-                    <option value="HRA (Rent)">HRA Exemption (PG Rent)</option>
-                    <option value="Section 80CCD(1B)">Section 80CCD(1B) NPS</option>
-                    <option value="Section 24(b)">Section 24(b) Home Loan Interest</option>
-                    <option value="Section 80G">Section 80G Donation</option>
-                    <option value="Section 80E">Section 80E Student Loan</option>
-                    <option value="Non-Tax Deductible">General Personal Expense</option>
-                  </select>
-                  <button
-                    type="submit"
-                    className="bg-emerald-600 text-white hover:bg-emerald-500 text-xs font-semibold px-4 rounded-lg transition-colors"
-                  >
-                    Add Row
-                  </button>
-                </div>
-              </form>
+              <p className="text-xs text-gray-500 leading-relaxed max-w-xs mx-auto font-sans">
+                Availing manual adjustments and direct custom entries is reserved for early launch day. Join the waitlist above to claim your reservation!
+              </p>
             </div>
           </div>
 
