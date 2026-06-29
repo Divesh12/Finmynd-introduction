@@ -8,7 +8,10 @@ import {
   Layers, 
   Coins,
   Lock,
-  EyeOff
+  EyeOff,
+  UserX,
+  HeartCrack,
+  AlertTriangle
 } from 'lucide-react';
 
 interface HeroProps {
@@ -18,7 +21,7 @@ interface HeroProps {
 export default function Hero({ onOpenEarlyAccess }: HeroProps) {
   // Typical Indian Salaried Tax optimization areas
   const optimizationSteps = [
-    { id: 1, name: 'Section 80C Investment Check ', factor: 'ELSS, PPF, EPF & Tuition Fees', impact: 'Save up to ₹46,800/yr', status: '80C Maximizer' },
+    { id: 1, name: 'Section 80C Investment Check', factor: 'ELSS, PPF, EPF & Tuition Fees', impact: 'Save up to ₹46,800/yr', status: '80C Maximizer' },
     { id: 2, name: 'HRA Exemption Claim', factor: 'Exemption based on Rent vs Basic Salary', impact: 'Save up to ₹78,000/yr', status: 'HRA Calculator' },
     { id: 3, name: 'NPS Section 80CCD(1B) Top-up', factor: 'National Pension Scheme up to ₹50k', impact: 'Save up to ₹15,600/yr', status: 'Extra Deductions' },
     { id: 4, name: 'Section 80D Health Cover', factor: 'Premium for Self & Senior Citizen Parents', impact: 'Save up to ₹23,400/yr', status: 'Health Shield' },
@@ -40,32 +43,34 @@ export default function Hero({ onOpenEarlyAccess }: HeroProps) {
       <div className="absolute top-1/3 -right-1/4 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left: Headline & Benefits */}
           <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-50 to-indigo-50/50 border border-emerald-100 px-4 py-1.5 rounded-full text-emerald-800 text-xs sm:text-sm font-semibold shadow-xs">
-              <Sparkles className="w-4 h-4 text-emerald-600 animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-mono text-xs uppercase tracking-wider text-emerald-700 font-bold">Making Sense of Finance</span>
+              <UserX className="w-4 h-4 text-emerald-600" />
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald-700 font-bold">100% Identity-Shielded</span>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-950 leading-tight">
-              Make Sense of Taxes.<br />
-              Reduce Stress with <span className="font-black text-gray-950">Fin<sup className="align-baseline text-[0.65em] font-black relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup></span>
-              <span className="text-indigo-600">.</span>
-            </h1>
+            <div className="space-y-4">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-950 leading-tight">
+                Understand your money.<br />
+                <span className="text-emerald-600">Keep your Identity.</span>
+              </h1>
+              <p className="text-lg sm:text-xl font-bold text-gray-800 tracking-tight font-display">
+                Financial intelligence built on your data – not your identity.
+              </p>
+            </div>
 
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans">
-              Indian tax filing can feel like an overwhelming, stressful puzzle. Navigating exemptions shouldn't cost you sleep—or your privacy. <strong>FinMynd</strong> is a private-first tax companion that demystifies tax rules, helps you instantly discover standard and rent exemptions from your transactions, and guides you to manage your finances better.
+              No mobile, no email, no unnecessary personal information. Just meaningful insights from the financial data you choose to share.{' '}
+              <button 
+                onClick={onOpenEarlyAccess}
+                className="text-indigo-600 font-bold hover:text-indigo-500 underline underline-offset-4 decoration-2 decoration-indigo-300 hover:decoration-indigo-500 cursor-pointer transition-colors"
+              >
+                Share your feedback
+              </button>
             </p>
-
-            {/* Privacy highlights */}
-            <div className="bg-emerald-50/60 border border-emerald-200/50 rounded-xl p-4 text-sm text-emerald-900 flex items-start space-x-3 max-w-2xl mx-auto lg:mx-0 text-left">
-              <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold">Anxiety-Free Privacy:</span> Traditional financial apps anchor your sensitive transaction data directly to your personal identity. Finmynd breaks that link. We strictly ban the collection of real-world identity markers—no names, no phone numbers, and no linked personal tracking. Your transaction history remains completely untraceable back to you.
-              </div>
-            </div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
@@ -73,32 +78,65 @@ export default function Hero({ onOpenEarlyAccess }: HeroProps) {
                 href="#scanner"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-all shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20"
               >
-                De-Stress Your Transactions
+                Scan Transactions Safely
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
-              <a
-                href="#estimator"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl transition-all"
+              <button
+                onClick={onOpenEarlyAccess}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl transition-all cursor-pointer"
               >
-                Mindful Tax Planner
-              </a>
+                Reserve Anonymous Username
+              </button>
             </div>
 
-            {/* High-Level Benefits */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-100 max-w-lg mx-auto lg:mx-0">
-              <div className="space-y-1">
-                <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Zero PII</div>
-                <div className="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider font-mono">No PAN, Email, or Mobile</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Identity Blind</div>
-                <div className="text-[11px] font-semibold text-indigo-600 uppercase tracking-wider font-mono">No Linked Tracking</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-xl sm:text-2xl font-black text-gray-950 font-display">Pure Match</div>
-                <div className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider font-mono">Only Transactions Read</div>
+            {/* Explaining what it does (Simple, non-technical list of things FinMynd helps discover) */}
+            <div className="pt-6 border-t border-gray-100 text-left">
+              <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider font-mono mb-4">
+                What FinMynd helps you discover:
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 mt-0.5">
+                    <Coins className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-tight">Hidden Tax Saving Opportunities</h4>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">Instantly spot standard deductions, medical allowances, and rent exemptions lying unclaimed in your bank logs.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 mt-0.5">
+                    <Layers className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-tight">Spending Patterns</h4>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">Map where your monthly salary goes, grouped automatically in our isolated backend with absolutely zero tracing back to you.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 shrink-0 mt-0.5">
+                    <HeartCrack className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-tight">Financial Leaks</h4>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">Identify forgotten subscriptions, hidden platform fees, and recurring charges that quietly drain your wealth.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                    <AlertTriangle className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-tight">Investment Gaps</h4>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">Uncover missing Section 80C, 80D, or NPS allocations to safeguard your cash flows for the final quarter.</p>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
 
           {/* Right: Simulated Paycheck/Vesting Dashboard */}

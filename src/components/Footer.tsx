@@ -26,12 +26,12 @@ export default function Footer() {
             </div>
             
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-sans">
-              Smart, rule-based tax planning and side-by-side regime simulations mapped directly to the Indian Income Tax Act. Tailored exclusively to reduce stress for salaried professionals.
+              First financial intelligence platform designed to understand your money – not your identity.
             </p>
 
-            <div className="flex items-center space-x-2 text-[10px] text-slate-500 font-mono">
+            <div className="flex items-center space-x-2 text-[10px] text-slate-300 font-mono font-bold">
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <span>Zero-PII Secure Workspace • No Server Storage</span>
+              <span>Privacy isn&apos;t a feature. It&apos;s our starting point.</span>
             </div>
           </div>
 

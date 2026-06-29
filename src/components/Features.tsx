@@ -40,7 +40,7 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
       id: 'section-matching',
       title: 'Discover Eligible Benefits',
       benefit: 'Savings Discovery',
-      description: 'Our rule-based engine screens line descriptions for key markers like "EPF", "ELSS", "Rent", "Health Insurance", or "NPS" to surface benefits that can dramatically lower your net taxable base.',
+      description: 'Identify eligible deductions, investments, and rent exemptions directly from your transactions to surface key benefits that can lower your net taxable base.',
       icon: Coins,
       iconColor: 'text-amber-600 bg-emerald-50 border-emerald-100',
       badge: 'Smart Match'
@@ -140,90 +140,204 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
           })}
         </div>
 
-        {/* The Narrative / Manifesto Block */}
-        <div className="mt-32 border border-gray-150 bg-linear-to-b from-slate-50/60 to-white rounded-3xl p-8 sm:p-16 relative overflow-hidden shadow-xs">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600" />
-          <div className="max-w-4xl mx-auto space-y-8">
-            <div className="space-y-4">
-              <span className="text-xs uppercase tracking-widest font-extrabold text-indigo-600 font-mono">
-                The FinMynd Difference
-              </span>
-              <h3 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                How We Stand Alone
-              </h3>
-            </div>
-            
-            <p className="text-base sm:text-lg text-slate-700 font-sans leading-relaxed">
-              Traditional finance apps are built like massive storage reservoirs. They pull in your personal transaction data, map your habits, and store them forever so they can sell you out to ad networks. 
-              <br /><br />
-              Finmynd is different. We believe you deserve total control over your money with zero personal exposure. By breaking the link between your personal identity and your finances, we make it impossible for outside eyes or advertisers to track you.
+        {/* Privacy by Architecture, Not by Policy Section */}
+        <div className="mt-32 border border-gray-200 bg-slate-50/80 rounded-3xl p-6 sm:p-12 relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-emerald-500 via-teal-500 to-indigo-600" />
+          
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
+            <span className="text-xs uppercase tracking-widest font-extrabold text-indigo-600 font-mono">
+              Unmatched Data Autonomy
+            </span>
+            <h3 className="font-display text-3xl font-extrabold tracking-tight text-slate-900">
+              Privacy by Architecture, Not by Policy
+            </h3>
+            <p className="text-sm text-slate-600 font-sans leading-relaxed max-w-2xl mx-auto">
+              Most platforms write elaborate legal privacy policies while storing your financial habits in centralized databases. FinMynd is structurally different: we engineered our platform so that sensitive data physically cannot be linked to your real identity. No PAN, no email, no mobile is ever collected—access is secured purely through a customizable username and password/passkey.
             </p>
+          </div>
 
-            <div className="p-6 rounded-2xl bg-emerald-50/50 border border-emerald-100 relative">
-              <p className="text-sm sm:text-base text-emerald-950 font-medium leading-relaxed">
-                <strong>FinMynd breaks the loop.</strong> We don&apos;t build profiling databases, we don&apos;t ask for email signups or mobile numbers, and we never track who you are. Your financial metrics belong entirely to you.
-              </p>
+          {/* CSS Architecture Diagram */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mt-8 text-left">
+            
+            {/* Isolated Backend Container */}
+            <div className="lg:col-span-7 bg-white border border-gray-200 p-6 sm:p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
+                    <span className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider">Secure Isolated Backend Environment</span>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-gray-400">SHIELDED HOST</span>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Step 1 */}
+                  <div className="flex items-start space-x-4 p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-150">
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                      1
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-900">Identity-Blind Submissions</h4>
+                      <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                        Enter financial figures and transactions freely. No PAN, no email verification, and no mobile OTP is requested or mapped.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* SVG Arrow */}
+                  <div className="pl-4 text-emerald-400">
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="flex items-start space-x-4 p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-150">
+                    <div className="w-8 h-8 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                      2
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-900">Isolated Server Compute</h4>
+                      <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                        All complex tax slab calculations, Section 87A relief offsets, and exemption estimations occur inside a secure, identity-decoupled backend.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* SVG Arrow */}
+                  <div className="pl-4 text-teal-400">
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="flex items-start space-x-4 p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-150">
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                      3
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-900">Pre-Registered Login Control</h4>
+                      <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                        Early access is restricted to pre-registered usernames. When the system launches, users sign in using their reserved username and select their secure password/passkey.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-gray-100 mt-6 flex items-center justify-between text-xs text-emerald-700 font-mono font-bold bg-emerald-50/40 p-3 rounded-xl">
+                <span>🛡️ Backend Computing Sandboxed & Decoupled</span>
+                <span className="text-[10px] text-emerald-600 bg-white border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">Active</span>
+              </div>
             </div>
+
+            {/* Outbound Firewall Barrier Block */}
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-6 text-left">
+              
+              <div className="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 shadow-md relative overflow-hidden flex-1 flex flex-col justify-between">
+                <div className="absolute top-0 right-0 p-3">
+                  <span className="px-2 py-0.5 text-[9px] font-mono font-extrabold bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-md uppercase tracking-wider">STRICT BLOCK</span>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="text-xs font-mono font-bold text-rose-400 uppercase tracking-widest">
+                    Outbound Firewall Barrier
+                  </div>
+                  <h4 className="font-display font-extrabold text-base leading-snug">
+                    Zero Real-World Identity Association
+                  </h4>
+                  <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                    Our firewalls strictly filter outbound telemetry. Because we bypass traditional identity schemas, no real-world names, mobile numbers, email addresses, or tax profiles are synchronized with marketing brokers or profiling platforms.
+                  </p>
+                </div>
+
+                <div className="mt-6 border-t border-slate-800 pt-4 flex flex-col space-y-2">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
+                    <span>Inbound Queries:</span>
+                    <span className="text-emerald-400 font-bold">Only registered usernames / suggestions</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
+                    <span>Sensitive Logs:</span>
+                    <span className="text-rose-500 font-bold">PHYSICALLY IMPOSSIBLE</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Shielding explanation block */}
+              <div className="bg-emerald-50/40 border border-emerald-200/40 rounded-2xl p-5 space-y-3">
+                <h4 className="text-xs font-bold text-emerald-800 font-mono tracking-wide uppercase">
+                  Anonymity Shield Architecture:
+                </h4>
+                <p className="text-xs text-gray-600 leading-relaxed font-sans">
+                  By handling calculations strictly inside our isolated backends, your raw financial values are computed independently of who you are. We verify logins solely using your chosen username and a password / passkey, keeping your profile 100% blind to third-party trackers.
+                </p>
+              </div>
+
+            </div>
+
           </div>
         </div>
 
-        {/* The Core Feature Grid */}
+        {/* Freedom from Unnecessary Identity (Our Principles) */}
         <div className="mt-24 space-y-12">
           <div className="max-w-3xl mx-auto text-center space-y-4">
             <span className="text-xs uppercase tracking-widest font-extrabold text-emerald-600 font-mono">
-              Designed For Peace of Mind
+              Core Principles
             </span>
             <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
-              The App with an Intentional Blindfold
+              Freedom from Unnecessary Identity
             </h3>
-            <p className="text-sm text-gray-600 font-sans">
-              Instead of a generic list of features, here is what a day-to-day experience looks like when an app doesn&apos;t know who you are.
+            <p className="text-sm text-gray-600 font-sans max-w-xl mx-auto">
+              We operate under a simple, non-negotiable philosophy: you should never have to prove who you are just to understand your money.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Zero Profiling */}
-            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-indigo-100 bg-indigo-50 text-indigo-600">
-                <span className="text-xl">👤</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            
+            {/* Principle 1 */}
+            <div className="bg-white border border-gray-150 p-6 rounded-2xl hover:border-emerald-200 hover:shadow-lg transition-all duration-300 space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-indigo-100 bg-indigo-50 text-indigo-600 font-bold text-sm">
+                01
               </div>
-              <h4 className="font-display font-extrabold text-lg text-slate-900">
-                Zero Profiling
+              <h4 className="font-display font-extrabold text-sm text-slate-900">
+                Identity-Shielded Access
               </h4>
-              <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                We can auto-assign your tax brackets and calculate transaction confidence metrics perfectly, but we can never connect those calculations back to your real-world identity.
+              <p className="text-xs text-slate-500 leading-relaxed font-sans">
+                No email, mobile, or real identity needed. Access using a custom username and password/passkey to protect your data.
               </p>
             </div>
 
-            {/* Zero Ad Targeted Pushes */}
-            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-rose-100 bg-rose-50 text-rose-600">
-                <span className="text-xl">🚫</span>
+            {/* Principle 2 */}
+            <div className="bg-white border border-gray-150 p-6 rounded-2xl hover:border-emerald-200 hover:shadow-lg transition-all duration-300 space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-emerald-100 bg-emerald-50 text-emerald-600 font-bold text-sm">
+                02
               </div>
-              <h4 className="font-display font-extrabold text-lg text-slate-900">
-                Zero Ad Targeted Pushes
+              <h4 className="font-display font-extrabold text-sm text-slate-900">
+                Backend-Isolated Computing
               </h4>
-              <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                Because we are completely blind to your transaction names and habits, it is physically impossible for us to target you with high-interest credit card ads or sponsored products.
+              <p className="text-xs text-slate-500 leading-relaxed font-sans">
+                Rule parsing and calculations happen on our high-security backend servers, completely decoupled from any personal details.
               </p>
             </div>
 
-            {/* Absolute Financial Clarity */}
-            <div className="bg-white border border-gray-150 p-8 rounded-2xl hover:border-emerald-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300 space-y-4">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center border border-emerald-100 bg-emerald-50 text-emerald-600">
-                <span className="text-xl">💎</span>
+            {/* Principle 3 */}
+            <div className="bg-white border border-gray-150 p-6 rounded-2xl hover:border-emerald-200 hover:shadow-lg transition-all duration-300 space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-rose-100 bg-rose-50 text-rose-600 font-bold text-sm">
+                03
               </div>
-              <h4 className="font-display font-extrabold text-lg text-slate-900">
-                Absolute Financial Clarity
+              <h4 className="font-display font-extrabold text-sm text-slate-900">
+                Zero Behavior Profiling
               </h4>
-              <p className="text-sm text-slate-600 leading-relaxed font-sans">
-                You get the heavy-lifting automation of a modern enterprise expense tracker, combined with the absolute security of a closed ecosystem.
+              <p className="text-xs text-slate-500 leading-relaxed font-sans">
+                We can't sell or share your tax plans with ad agencies because we physically avoid compiling marketing cohorts or profiling habits.
               </p>
             </div>
+
           </div>
         </div>
 
-        {/* The Architecture Transparency Matrix (Interactive Table) */}
+        {/* Traditional comparative table tab container */}
         <div className="mt-24 border border-gray-150 bg-slate-50/50 rounded-3xl p-6 sm:p-12">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-10">
             <span className="text-xs uppercase tracking-widest font-extrabold text-indigo-600 font-mono">
@@ -233,7 +347,7 @@ export default function Features({ onOpenEarlyAccess }: FeaturesProps) {
               How We Differ From the Rest
             </h3>
             <p className="text-sm text-slate-600 font-sans">
-              Compare how your details are handled inside traditional financial applications versus Finmynd&apos;s identity-shielded planner.
+              Compare how your details are handled inside traditional financial applications versus FinMynd&apos;s identity-shielded planner.
             </p>
           </div>
 
@@ -282,8 +396,8 @@ function MatrixTable() {
       name: 'User Identity',
       icon: '👤',
       traditional: 'Force you to log in with your email, mobile number, or Google account, linking all data to your real identity.',
-      finmynd: 'Zero login required. No email, no phone, no credentials. Your identity remains completely shielded.',
-      details: 'We believe you shouldn\'t have to prove who you are just to calculate your taxes. Our planner operates completely anonymously.'
+      finmynd: 'No email, mobile, or real identity needed. Access using a chosen username and password/passkey to safeguard your profile.',
+      details: 'We believe you shouldn\'t have to prove who you are just to calculate your taxes. Our planner operates with complete identity shielding using customizable credentials.'
     },
     {
       id: 'targeting' as const,
@@ -299,7 +413,7 @@ function MatrixTable() {
       icon: '🛡️',
       traditional: 'Store your habits permanently on central company databases to build marketing cohorts.',
       finmynd: 'Your financial information is your own business. We act as a helper tool, never a behavior tracker.',
-      details: 'Finmynd is designed strictly as an assistant for tax planning and discovery. You are a customer seeking clarity, not a data asset to be mined.'
+      details: 'FinMynd is designed strictly as an assistant for tax planning and discovery. You are a customer seeking clarity, not a data asset to be mined.'
     }
   ];
 
@@ -397,3 +511,4 @@ function MatrixTable() {
     </div>
   );
 }
+

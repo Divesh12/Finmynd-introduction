@@ -5,11 +5,15 @@ import {
   ShieldCheck, 
   MessageSquare, 
   Sparkles, 
-  HelpCircle
+  HelpCircle,
+  User,
+  Tag,
+  Key
 } from 'lucide-react';
 
 export default function ContactForm() {
   const [message, setMessage] = useState('');
+  const [feedbackType, setFeedbackType] = useState<'query' | 'request' | 'waitlist' | 'feedback'>('waitlist');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -115,6 +119,14 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
 
+    // Format submission payload to combine all parameters into the single Google Forms text field
+    let formattedPayload = `[Type: ${feedbackType.toUpperCase()}]\n`;
+    if (feedbackType === 'waitlist') {
+      formattedPayload += `[Reserved Username: @${message.trim().replace(/^@/, '')}]\n`;
+    } else {
+      formattedPayload += `[Payload]: ${message.trim()}`;
+    }
+
     // Retrieve form parameters dynamically with local preference
     let activeUrl = defaultUrl;
     let activeEntryId = defaultEntryId;
@@ -143,7 +155,7 @@ export default function ContactForm() {
     console.log(`[Form Submission] Target response URL: ${cleanUrl}`);
     console.log(`[Form Submission] Question Entry Field: ${entryKey}`);
 
-    // --- TRANSMISSION ROUTE: Secure Direct Client-side Submission (Zero-CORS, serverless, compatible with static hosts like GitHub Pages) ---
+    // --- TRANSMISSION ROUTE: Secure Direct Client-side Submission (Zero-CORS, serverless) ---
     console.log("🔄 Initiating client-side direct form submission...");
     try {
       // Create hidden iframe and form to submit without CORS issues
@@ -151,7 +163,6 @@ export default function ContactForm() {
       const iframe = document.createElement('iframe');
       iframe.name = iframeId;
       iframe.id = iframeId;
-      // Style off-screen instead of display: none to prevent modern browsers from blocking the form submit in a hidden container
       iframe.style.position = 'absolute';
       iframe.style.width = '1px';
       iframe.style.height = '1px';
@@ -169,7 +180,7 @@ export default function ContactForm() {
       const input = document.createElement('input');
       input.type = 'hidden';
       input.name = entryKey;
-      input.value = message.trim();
+      input.value = formattedPayload;
       form.appendChild(input);
 
       // Add standard google form submit auxiliary fields
@@ -232,13 +243,13 @@ export default function ContactForm() {
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-4">
           <span className="inline-flex items-center space-x-1.5 bg-linear-to-r from-emerald-50 to-indigo-50 border border-emerald-100 text-emerald-800 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider font-mono shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-spin" style={{ animationDuration: '4s' }} />
-            <span>Integrated Feedback & Routing</span>
+            <span>Join the Autonomous Movement</span>
           </span>
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Have a Complex Tax Question? Ask <span className="font-extrabold text-gray-900">Fin<sup className="align-baseline text-[0.65em] font-extrabold relative -top-[0.4em] ml-0.5 text-emerald-600">Mynd</sup></span>
+            Reserve Your Anonymous Handle
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed font-sans">
-            Whether you are curious about the new ₹12.5 Lakh zero-tax threshold, Section 87A marginal relief computations, or want us to code a custom visual chart—just type below. 
+            Secure your unique identity-shielded username before we launch. No email, no mobile, no linking. Keep your handle entirely yours.
           </p>
         </div>
 
@@ -251,9 +262,9 @@ export default function ContactForm() {
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <div className="space-y-2">
-                <h3 className="font-display text-2xl font-bold text-gray-900">Query Received!</h3>
+                <h3 className="font-display text-2xl font-bold text-gray-900">Waitlist Registered!</h3>
                 <p className="text-sm text-gray-600 max-w-md mx-auto font-sans leading-relaxed font-medium text-emerald-700 text-center">
-                  Your query has been successfully compiled and securely routed!
+                  Your secure, identity-blind reservation has been logged. Welcome to the future of financial autonomy.
                 </p>
               </div>
               
@@ -266,81 +277,153 @@ export default function ContactForm() {
                   }}
                   className="px-5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-100 transition-all cursor-pointer"
                 >
-                  Submit another query
+                  Reserve another handle or submit query
                 </button>
               </div>
             </div>
           ) : (
             <div className="space-y-8">
-              {/* The Teaser Hook */}
-              <div className="bg-slate-950 text-white rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden shadow-xs border border-slate-800">
-                <div className="absolute inset-0 bg-radial from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
-                <div className="max-w-2xl mx-auto space-y-3 relative text-left sm:text-center">
-                  <span className="text-[9px] font-extrabold font-mono tracking-widest text-emerald-400 uppercase">
-                    Privacy Assurance
-                  </span>
+              
+              {/* Coming Soon Teaser Banner */}
+              <div className="bg-slate-950 text-white rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-xs border border-slate-900">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.12),transparent_45%)] pointer-events-none" />
+                <div className="relative space-y-2 text-left">
+                  <div className="inline-flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider font-mono">
+                    Coming Soon • Q3 2026
+                  </div>
                   <h3 className="font-display text-lg sm:text-xl font-extrabold tracking-tight text-white leading-snug">
-                    &ldquo;We engineered our system so we couldn&apos;t watch you even if we wanted to.&rdquo;
+                    FinMynd Client App V1.0
                   </h3>
-                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
-                    Most platforms ask for your trust. We decided to remove the human element entirely by making your real-world identity completely invisible to our network. You get total control over your money, with zero exposure.
+                  <p className="text-xs text-slate-400 font-sans leading-relaxed max-w-2xl">
+                    Our secure client app will offer native isolated bank statement parsers, dynamic tax recommendations, and absolute identity isolation with secure isolated backend processing. No PAN, email, or mobile required.
                   </p>
                 </div>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-8">
 
-                {/* Suggested Prompts */}
-                <div className="space-y-3">
+                {/* Segmented Category Selection */}
+                <div className="space-y-3 text-left">
                   <label className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4 text-emerald-600" />
-                    Tap to auto-fill your message:
+                    <Tag className="w-4 h-4 text-emerald-600" />
+                    Select Action Category:
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {suggestedQuestions.map((q, idx) => (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {[
+                      { id: 'waitlist', label: 'Join Waitlist', desc: 'Reserve Username' },
+                      { id: 'query', label: 'Submit Query', desc: 'Tax Slabs / Rules' },
+                      { id: 'request', label: 'Feature Request', desc: 'Ask for additions' },
+                      { id: 'feedback', label: 'Share Feedback', desc: 'Tell us your thoughts' }
+                    ].map((item) => (
                       <button
-                        key={idx}
+                        key={item.id}
                         type="button"
-                        onClick={() => handleQuestionClick(q.text)}
-                        className="group flex flex-col items-start p-3.5 text-left rounded-2xl border border-gray-150 bg-gray-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 hover:shadow-xs transition-all duration-200 cursor-pointer w-full"
+                        onClick={() => {
+                          setFeedbackType(item.id as any);
+                          setMessage(''); // Reset message input for cleaner state transition
+                        }}
+                        className={`p-3 text-left rounded-xl border transition-all cursor-pointer ${
+                          feedbackType === item.id
+                            ? 'bg-emerald-50/50 border-emerald-500 shadow-xs ring-2 ring-emerald-500/10'
+                            : 'bg-slate-50/50 border-gray-200 hover:bg-slate-50 hover:border-gray-300'
+                        }`}
                       >
-                        <span className="inline-block bg-slate-200/60 group-hover:bg-emerald-100 text-slate-700 group-hover:text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-md font-mono uppercase tracking-wider mb-2">
-                          {q.tag}
-                        </span>
-                        <span className="text-xs text-gray-700 group-hover:text-gray-900 font-medium font-sans">
-                          {q.text}
-                        </span>
+                        <div className={`text-xs font-bold ${feedbackType === item.id ? 'text-emerald-800' : 'text-gray-800'}`}>
+                          {item.label}
+                        </div>
+                        <div className="text-[10px] text-gray-500 mt-0.5 font-sans leading-tight">
+                          {item.desc}
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Message field */}
-                <div className="space-y-2 text-left">
-                  <label htmlFor="feedback-message" className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
-                    Your message / query / request:
-                  </label>
-                  <div className="relative">
-                    <div className="absolute top-3.5 left-3.5 pointer-events-none text-gray-400">
-                      <MessageSquare className="w-4.5 h-4.5 text-emerald-600" />
+                {/* Dynamic Inputs based on selected category */}
+                {feedbackType === 'waitlist' ? (
+                  /* WAITLIST USERNAME ONLY INPUT */
+                  <div className="space-y-3 text-left">
+                    <label htmlFor="feedback-message" className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                      <User className="w-4 h-4 text-emerald-600" />
+                      Desired Username to Reserve (Required):
+                    </label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 font-mono text-sm font-bold">
+                        @
+                      </span>
+                      <input
+                        id="feedback-message"
+                        type="text"
+                        required
+                        placeholder="anonymous_professional"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ''))}
+                        className="w-full pl-8 pr-4 py-3.5 text-sm rounded-2xl border border-gray-250 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-gray-950 font-mono tracking-wide placeholder-gray-400 bg-white"
+                      />
                     </div>
-                    <textarea
-                      id="feedback-message"
-                      required
-                      rows={5}
-                      placeholder="Describe your tax concern or request. e.g. I want to calculate Section 87A marginal relief on my ₹12.75L salary. Can you build an interactive visualization chart?"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3.5 text-sm rounded-2xl border border-gray-250 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-gray-900 placeholder-gray-400 font-sans leading-relaxed shadow-inner bg-white"
-                    />
+                    <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100/60 text-xs text-emerald-950 font-sans leading-relaxed">
+                      <strong>How early logging works:</strong> Since we physically cannot store or link phone numbers or emails, early user authorization will be restricted strictly to pre-registered usernames collected today. When our portal goes live, you will enter this handle and select your password/passkey to establish ownership.
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  /* GENERAL INQUIRY / SUGGESTION / FEEDBACK INPUT */
+                  <div className="space-y-6">
+                    {/* Suggested Prompts */}
+                    <div className="space-y-3">
+                      <label className="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                        <HelpCircle className="w-4 h-4 text-emerald-600" />
+                        Suggested Prompts:
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {suggestedQuestions.map((q, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleQuestionClick(q.text)}
+                            className="group flex flex-col items-start p-3 text-left rounded-2xl border border-gray-150 bg-gray-50/50 hover:bg-emerald-50/20 hover:border-emerald-300 hover:shadow-xs transition-all duration-200 cursor-pointer w-full"
+                          >
+                            <span className="inline-block bg-slate-200/60 group-hover:bg-emerald-100 text-slate-700 group-hover:text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-md font-mono uppercase tracking-wider mb-2">
+                              {q.tag}
+                            </span>
+                            <span className="text-xs text-gray-700 group-hover:text-gray-900 font-medium font-sans">
+                              {q.text}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Textarea Field */}
+                    <div className="space-y-2 text-left">
+                      <label htmlFor="feedback-message" className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
+                        Your message / query / request:
+                      </label>
+                      <div className="relative">
+                        <div className="absolute top-3.5 left-3.5 pointer-events-none text-gray-400">
+                          <MessageSquare className="w-4.5 h-4.5 text-emerald-600" />
+                        </div>
+                        <textarea
+                          id="feedback-message"
+                          required
+                          rows={4}
+                          placeholder="Describe your tax concern or request. e.g. I want to calculate Section 87A marginal relief on my ₹12.75L salary. Can you build an interactive visualization chart?"
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          className="w-full pl-11 pr-4 py-3.5 text-sm rounded-2xl border border-gray-250 focus:outline-hidden focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 text-gray-900 placeholder-gray-400 font-sans leading-relaxed shadow-inner bg-white"
+                        />
+                      </div>
+                      <p className="text-[11px] text-slate-500 font-sans leading-relaxed">
+                        💡 <strong>Early Login Tip:</strong> You can include your desired username inside your message (e.g., <em>&quot;@my_username: Can we parse PDF forms locally?&quot;</em>). When the early-access portal launches, those handles will be enabled to set a password and log in.
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 {/* Micro Privacy Banner */}
                 <div className="p-4 rounded-2xl bg-slate-50 border border-gray-150 flex items-center space-x-3 shadow-xs text-left">
                   <ShieldCheck className="w-6 h-6 text-emerald-600 flex-shrink-0" />
                   <span className="text-xs text-gray-500 font-sans">
-                    <strong>Anxiety-Free Privacy:</strong> We strictly ban the collection of real-world identity markers—no names, no phone numbers, and no linked personal tracking. Your feedback is fully anonymous.
+                    <strong>Anxiety-Free Privacy:</strong> We strictly ban the collection of real-world identity markers—no PAN, no email addresses, and no mobile numbers. Your feedback is fully anonymous.
                   </span>
                 </div>
 
@@ -360,13 +443,12 @@ export default function ContactForm() {
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-2">
-                      Submit Query to FinMynd
+                      {feedbackType === 'waitlist' ? 'Reserve My Anonymous Handle' : 'Submit Entry to FinMynd'}
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   )}
                 </button>
               </form>
-
 
             </div>
           )}

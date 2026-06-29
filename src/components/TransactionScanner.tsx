@@ -452,27 +452,43 @@ export default function TransactionScanner() {
                   placeholder="Paste bank statement rows here... E.g.&#10;12-Apr SIP MUTUAL FUND ELSS - ₹12,500&#10;18-Apr INSURANCE PREMIUM PAYMENT - ₹10,000&#10;Or drop your statement file anywhere in this box."
                   className="w-full h-48 text-xs font-mono bg-transparent border-0 focus:ring-0 p-0 resize-none text-gray-800 placeholder-gray-400 focus:outline-hidden"
                 />
-                <div className="pt-2 border-t border-gray-100 flex items-center justify-center gap-1.5 text-[10px] text-gray-400">
-                  <UploadCloud className="w-4 h-4 text-gray-400" />
-                  <span>Files stay offline. No upload, zero storage.</span>
+                <div className="pt-2 border-t border-gray-100 flex flex-col items-center justify-center gap-1 text-[10px] text-gray-400">
+                  <div className="flex items-center gap-1.5">
+                    <UploadCloud className="w-4 h-4 text-gray-400" />
+                    <span>No Upload, Zero Storage: Statements are parsed strictly in-memory to run our algorithms.</span>
+                  </div>
                 </div>
+              </div>
+
+              {/* Strict No-Storage Bank Statement Processing Disclaimer */}
+              <div className="bg-slate-50 border border-gray-200 rounded-xl p-3 text-[11px] text-gray-600 space-y-1.5 text-left">
+                <div className="flex items-center gap-1.5 font-bold text-gray-800">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Our Statement Processing Pledge</span>
+                </div>
+                <p className="leading-relaxed">
+                  We <strong>do not store your statements anywhere</strong>. When you paste or drop a statement, we simply run our parsing algorithm in-memory to compile tax insights, then discard the raw data immediately. 
+                </p>
+                <p className="leading-relaxed">
+                  We collect <strong>no Personally Identifiable Information (PII)</strong>. Although we highly recommend manually removing any account numbers, names, or addresses before uploading for your own peace of mind, even if you forget to do so, our system completely ignores and never stores or processes any of that private data.
+                </p>
               </div>
 
               {/* PII Shield integrity warning */}
               {piiAnalysis.detected ? (
-                <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-3 text-xs text-amber-900 space-y-1">
+                <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-3 text-xs text-amber-900 space-y-1 text-left">
                   <div className="flex items-center gap-1.5 font-bold">
                     <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
                     <span>PII Warning Detected!</span>
                   </div>
                   <p className="text-[11px] text-amber-800 leading-relaxed">
                     We noticed potential sensitive tags: <strong>{piiAnalysis.items.join(', ')}</strong>. 
-                    Please double-check or delete those rows before scanning. Your files are never sent to a server, but keeping your source data anonymous is best practice.
+                    We highly recommend sanitizing these lines, but rest assured that our processing algorithm will skip and discard them immediately without storage or server inspection.
                   </p>
                 </div>
               ) : (
                 inputText && (
-                  <div className="bg-emerald-50 border border-emerald-150 rounded-xl p-3 text-xs text-emerald-900 flex items-center gap-2">
+                  <div className="bg-emerald-50 border border-emerald-150 rounded-xl p-3 text-xs text-emerald-900 flex items-center gap-2 text-left">
                     <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span className="text-[11px] font-semibold">PII Scan Clear: No personal account metrics or identity details detected.</span>
                   </div>
