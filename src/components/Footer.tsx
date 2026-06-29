@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-slate-900">
           
           {/* Logo & Slogan */}
-          <div className="md:col-span-4 space-y-4">
+          <div className="md:col-span-6 space-y-4">
             <div className="flex items-center space-x-3">
               <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-indigo-600 text-white shadow-lg shadow-emerald-500/20">
                 <Sparkles className="w-5 h-5 text-white animate-pulse" />
@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links Sitemaps */}
-          <div className="md:col-span-4 grid grid-cols-2 gap-8 text-xs">
+          <div className="md:col-span-6 grid grid-cols-2 gap-8 text-xs">
             <div className="space-y-4">
               <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">Optimization Modules</h4>
               <ul className="space-y-2.5">
@@ -54,18 +54,6 @@ export default function Footer() {
                 <li><a href="#features" className="hover:text-emerald-400 transition-colors">Key Factors</a></li>
                 <li><span className="text-slate-600 cursor-not-allowed">Local Parser V1.2</span></li>
               </ul>
-            </div>
-          </div>
-
-          {/* Privacy/Status block */}
-          <div className="md:col-span-4 space-y-4">
-            <h4 className="font-semibold text-slate-200 uppercase tracking-wider text-[11px] block">Privacy & Zero-PII Design</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              We operate strictly under a local-only architecture. All parsed financial logs, statement lines, and deduction results remain stored securely in your web browser memory.
-            </p>
-            <div className="inline-flex items-center space-x-2 text-[10px] text-slate-500 font-mono bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Full Browser Isolation Verified</span>
             </div>
           </div>
 
